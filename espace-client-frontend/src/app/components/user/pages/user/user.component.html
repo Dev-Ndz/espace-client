@@ -1,0 +1,26 @@
+<div class="text-text-color bg-background-color">
+  <div
+    [style]="'background-image: url(' + client?.cover + ')'"
+    class="w-full h-60 bg-center bg-cover flex justify-center"
+    alt="cover"
+  >
+    <h1
+      class="self-center text-5xl text-background-color font-mono uppercase tracking-wider"
+    >
+      {{ client?.name }}
+    </h1>
+  </div>
+  <div class="px-8 py-4 flex flex-row">
+    <aside>
+      <img
+        [src]="client?.logo"
+        alt="logo"
+        class="w-60 aspect-[4/5] object-cover"
+      />
+      <app-navigation />
+    </aside>
+    <div class="px-4">
+      <router-outlet />
+    </div>
+  </div>
+</div>
