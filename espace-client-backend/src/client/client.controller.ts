@@ -6,37 +6,44 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
-import { CreateClientDto } from './dto/create-client.dto';
-import { UpdateClientDto } from './dto/update-client.dto';
+import { Client, Prisma } from '@prisma/client';
 
 @Controller('client')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Post()
-  create(@Body() createClientDto: CreateClientDto) {
-    return this.clientService.create(createClientDto);
+  createClient(@Body() data: Prisma.ClientCreateInput) {
+    return this.clientService.create(data);
   }
 
   @Get()
-  findAll() {
-    return this.clientService.findAll();
+  getAllClients() {
+    return this.clientService.findAll({});
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.clientService.findOne(+id);
+  async getClientById(@Param('id') id: string) {
+    const client = await this.clientService.findOne({ id });
+    if (!client) {
+      throw new NotFoundException(`Client with ID ${id} not found`);
+    }
+    return client;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return this.clientService.update(+id, updateClientDto);
+  updateClient(
+    @Param('id') id: string,
+    @Body() data: Prisma.ClientUpdateInput,
+  ) {
+    return this.clientService.update({ where: { id }, data });
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.clientService.remove(+id);
+  deleteClient(@Param('id') id: string) {
+    return this.clientService.delete({ id });
   }
 }
