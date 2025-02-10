@@ -3,17 +3,17 @@ name: Integration Continue
 # {1}
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   angular:
     name: Angular Build
     runs-on: ubuntu-latest
     defaults:
-    run:
-      working-directory: espace-client-frontend
+      run:
+        working-directory: espace-client-frontend
     strategy:
       matrix:
         node-version: [22]
@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: $
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: package-lock.json
 
       # {4}
