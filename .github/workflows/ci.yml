@@ -1,6 +1,5 @@
 name: Integration Continue
 
-# {1}
 on:
   push:
     branches: ["main"]
@@ -9,32 +8,26 @@ on:
 
 jobs:
   angular:
-    name: Angular Build
+    name: test front-end
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: espace-client-frontend
-    strategy:
-      matrix:
-        node-version: [22]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
-      # {2}
       - name: Checkout the source code
         uses: actions/checkout@v3
 
-      # {3}
       - name: Setup Node.js 22
         uses: actions/setup-node@v3
         with:
           node-version: 22
 
-      # {4}
       - name: Install dependencies
         run: npm ci
-      # {5}
+
       - name: Run tests
         run: npm run test:ci
-      # {6}
+
       - name: Build
         run: npm run build
