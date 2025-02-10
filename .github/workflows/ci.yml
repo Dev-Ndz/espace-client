@@ -54,7 +54,8 @@ jobs:
       POSTGRES_PORT: 5432
 
     steps:
-      - uses: action/checkout@v3
+      - name: Checkout the source code
+        uses: action/checkout@v3
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v3
