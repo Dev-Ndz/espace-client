@@ -28,8 +28,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: "npm"
-          cache-dependency-path: package-lock.json
 
       # {4}
       - name: Install dependencies
