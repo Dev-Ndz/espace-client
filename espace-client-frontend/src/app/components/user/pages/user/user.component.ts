@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from './partials/navigation/navigation.component';
 import { ClientService } from '../../../../services/client.service';
 import { Client } from '../../../../models/client';
-import { HeaderComponent } from "./partials/header/header.component";
+import { HeaderComponent } from './partials/header/header.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -11,14 +12,15 @@ import { HeaderComponent } from "./partials/header/header.component";
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
 })
-export class UserComponent {
+export class UserComponent implements OnInit {
   private clientService = inject(ClientService);
   isLoading = false;
   client?: Client;
+  client$?: Subscription;
 
   getClient() {
     this.isLoading = true;
-    this.clientService.getClient().subscribe({
+    this.client$ = this.clientService.getClient().subscribe({
       next: (client: Client) => {
         this.client = client;
         console.log(this.client);
@@ -30,5 +32,10 @@ export class UserComponent {
 
   ngOnInit() {
     this.getClient();
+  }
+  ngOnDestroy() {
+    if (this.client$) {
+      this.client$.unsubscribe();
+    }
   }
 }

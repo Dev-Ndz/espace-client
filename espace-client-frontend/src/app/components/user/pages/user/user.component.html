@@ -1,7 +1,7 @@
-<div class="text-text-color bg-background-color min-h-screen">
+<div class="min-h-screen text-text-color bg-background-color">
   <app-header />
 
-  <div class="px-8 py-4 flex flex-row">
+  <div class="flex flex-row px-8 py-4">
     <aside>
       <img
         [src]="client?.logo"
@@ -11,6 +11,7 @@
       <app-navigation />
     </aside>
     <div class="px-4">
+      {{ client?.name }}
       <router-outlet />
     </div>
   </div>
