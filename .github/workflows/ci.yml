@@ -98,6 +98,6 @@ jobs:
       - name: Deploy backend subtree to Heroku
         run: |
           git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-          git subtree push --prefix=espace-client-backend heroku main --force
+          git subtree push --prefix=espace-client-backend heroku main
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
