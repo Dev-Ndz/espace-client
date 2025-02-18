@@ -85,4 +85,5 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_EMAIL}}
-          appdir: "espace-client-backend" # <- This will point to the api folder in your project
+          appdir: "espace-client-backend"
+          branch: test
