@@ -99,6 +99,8 @@ jobs:
         run: |
           git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
           git pull --rebase heroku main
+          git config --global user.email "nicolas.dzierzgowski@gmail.com"
+          git config --global user.name "Ndzski"
           git subtree push --prefix=espace-client-backend heroku main
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
