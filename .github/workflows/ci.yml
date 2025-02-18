@@ -90,6 +90,11 @@ jobs:
       - name: Install Heroku CLI
         run: curl https://cli-assets.heroku.com/install.sh | sh
 
+      - name: Authenticate Git with Heroku
+        run: |
+          echo "machine git.heroku.com login ${{ secrets.HEROKU_EMAIL }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
+          chmod 600 ~/.netrc
+
       - name: Deploy backend subtree to Heroku
         run: |
           git remote add heroku https://git.heroku.com/espace-client-test.git
