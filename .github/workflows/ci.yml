@@ -89,14 +89,14 @@ jobs:
       - name: Install Heroku CLI
         run: curl https://cli-assets.heroku.com/install.sh | sh
 
-    #   - name: Authenticate Git with Heroku
-    #     run: |
-    #       echo "machine git.heroku.com login ${{ secrets.HEROKU_EMAIL }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
-    #       chmod 600 ~/.netrc
+      - name: Authenticate Git with Heroku
+        run: |
+          echo "machine git.heroku.com login ${{ secrets.HEROKU_EMAIL }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
+          chmod 600 ~/.netrc
 
-    #   - name: Create heroku
-    #     run: |
-    #       git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+      - name: Create heroku
+        run: |
+          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
 
     #       git subtree push --prefix=espace-client-backend heroku main
 
@@ -106,17 +106,17 @@ jobs:
     #   - name: Reset local subtree branch to match Heroku
     #     run: git reset --soft heroku/main
 
-    # - name: Push subtree to Heroku
-    #   run: git subtree push --prefix=espace-client-backend heroku main
+      - name: Push subtree to Heroku
+        run: git push heroku `git subtree split --prefix espace-client-backend test`:main --force
 
     #   env:
 
     # steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.13.15 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
-          branch: test
-          appdir: espace-client-backend
+      # - uses: actions/checkout@v2
+      # - uses: akhileshns/heroku-deploy@v3.13.15 # This is the action
+      #   with:
+      #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+      #     heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+      #     heroku_email: ${{secrets.HEROKU_EMAIL}}
+      #     branch: test
+      #     appdir: espace-client-backend
