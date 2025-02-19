@@ -7,75 +7,75 @@ on:
     branches: ["main"]
 
 jobs:
-  # angular:
-  #   name: test front-end
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: espace-client-frontend
+  angular:
+    name: test front-end
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: espace-client-frontend
 
-  #   steps:
-  #     - name: Checkout the source code
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout the source code
+        uses: actions/checkout@v3
 
-  #     - name: Setup Node.js 22
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 22
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
 
-  #     - name: Install dependencies
-  #       run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-  #     - name: Run tests
-  #       run: npm run test:ci
+      - name: Run tests
+        run: npm run test:ci
 
-  #     - name: Build
-  #       run: npm run build
+      - name: Build
+        run: npm run build
 
-  # backend-test:
-  #   name: test back-end
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: espace-client-backend
+  backend-test:
+    name: test back-end
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: espace-client-backend
 
-  #   services:
-  #     postgres:
-  #       image: postgres
-  #       env:
-  #         POSTGRES_PASSWORD: ${{ secrets.CI_DB_PASSWORD }}
-  #       options: >-
-  #         --health-cmd pg_isready
-  #         --health-interval 10s
-  #         --health-timeout 5s
-  #         --health-retries 5
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.CI_DB_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-  #   env:
-  #     POSTGRES_HOST: postgres
-  #     POSTGRES_PORT: 5432
+    env:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
 
-  #   steps:
-  #     - name: Checkout the source code
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout the source code
+        uses: actions/checkout@v3
 
-  #     - name: Setup Node.js 22
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 22
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
 
-  #     - name: Install dependencies
-  #       run: npm i
+      - name: Install dependencies
+        run: npm i
 
-  #     - name: Run tests
-  #       run: npm run test
+      - name: Run tests
+        run: npm run test
 
-  #     - name: Build
-  #       run: npm run build
+      - name: Build
+        run: npm run build
 
   deploy-backend:
     name: Deploy Backend to Heroku
     runs-on: ubuntu-latest
-    # needs: backend-test
+    needs: backend-test
     if: github.ref == 'refs/heads/test'
     steps:
       - name: Checkout the source code
@@ -97,25 +97,6 @@ jobs:
       - name: Create heroku
         run: git remote add heroku https://git.heroku.com/espace-client-test.git
 
-      #       git subtree push --prefix=espace-client-backend heroku main
-
-      #   - name: Fetch latest from Heroku
-      #     run: git fetch heroku main --depth=1
-
-      #   - name: Reset local subtree branch to match Heroku
-      #     run: git reset --soft heroku/main
-
       - name: Push subtree to Heroku
         run: git push heroku `git subtree split --prefix espace-client-backend test`:main --force
 
-    #   env:
-
-    # steps:
-    # - uses: actions/checkout@v2
-    # - uses: akhileshns/heroku-deploy@v3.13.15 # This is the action
-    #   with:
-    #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-    #     heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-    #     heroku_email: ${{secrets.HEROKU_EMAIL}}
-    #     branch: test
-    #     appdir: espace-client-backend
