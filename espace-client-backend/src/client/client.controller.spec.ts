@@ -18,8 +18,9 @@ describe('ClientController', () => {
     TVA: true,
     TVANumber: 'BE0123456789',
     email: 'test@example.com',
-    phone: 123456789,
+    phone: '123456789',
     createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   const mockClientService = {
@@ -55,7 +56,7 @@ describe('ClientController', () => {
         name: 'Test Corp',
         description: 'Test description',
         email: 'test@example.com',
-        phone: 123456789,
+        phone: '123456789',
       };
 
       const result = await controller.createClient(clientData);
