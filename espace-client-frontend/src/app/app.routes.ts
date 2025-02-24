@@ -5,6 +5,8 @@ import { DocumentsComponent } from './components/user/pages/documents/documents.
 import { UserInfoComponent } from './components/user/pages/user-info/user-info.component';
 import { MoodboardComponent } from './components/user/pages/moodboard/moodboard.component';
 import { QuestionnaireComponent } from './components/user/pages/questionnaire/questionnaire.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 
 export const routes: Routes = [
   {
@@ -19,6 +21,13 @@ export const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirection vers "home"
     ],
   },
-  { path: '', redirectTo: 'user/home', pathMatch: 'full' }, // Redirection par défaut
-  { path: '**', redirectTo: 'user/home', pathMatch: 'full' }, // Redirection en cas d'erreur d'URL
+  {
+    path: 'auth',
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+    ],
+  },
+  // { path: '', redirectTo: 'user/home', pathMatch: 'full' }, // Redirection par défaut
+  // { path: '**', redirectTo: 'user/home', pathMatch: 'full' }, // Redirection en cas d'erreur d'URL
 ];
