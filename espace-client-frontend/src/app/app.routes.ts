@@ -7,6 +7,9 @@ import { MoodboardComponent } from './components/user/pages/moodboard/moodboard.
 import { QuestionnaireComponent } from './components/user/pages/questionnaire/questionnaire.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
+import { AdminPageComponent } from './components/admin/admin-page/admin-page.component';
+import { ClientDashboardComponent } from './components/admin/client-dashboard/client-dashboard.component';
+import { ClientComponent } from './components/admin/client/client.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +31,14 @@ export const routes: Routes = [
       { path: 'register', component: RegisterComponent },
     ],
   },
-  // { path: '', redirectTo: 'user/home', pathMatch: 'full' }, // Redirection par défaut
-  // { path: '**', redirectTo: 'user/home', pathMatch: 'full' }, // Redirection en cas d'erreur d'URL
+  {
+    path: 'admin',
+    component: AdminPageComponent,
+    children: [
+      { path: 'client-dashboard', component: ClientDashboardComponent },
+      { path: 'client', component: ClientComponent },
+    ],
+  },
+  { path: '', redirectTo: 'user/home', pathMatch: 'full' }, // Redirection par défaut
+  { path: '**', redirectTo: 'user/home', pathMatch: 'full' }, // Redirection en cas d'erreur d'URL
 ];

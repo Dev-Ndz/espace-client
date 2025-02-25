@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from './partials/navigation/navigation.component';
 import { ClientService } from '../../../../services/client.service';
 import { Client } from '../../../../models/client';
-import { HeaderComponent } from './partials/header/header.component';
+import { HeaderComponent } from '../../../shared/header/header.component';
 import { Subscription } from 'rxjs';
 
 @Component({

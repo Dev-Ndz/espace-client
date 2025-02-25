@@ -23,13 +23,12 @@ export class AuthService {
     }
   }
 
-  async login(email: string, pass: string): Promise<{ access_token: string }> {
+  async login(email: string, pass: string): Promise<string> {
     const user = await this.userService.findOneByEmail(email);
     await this.verifyPassword(pass, user);
     const payload = { sub: user.id };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+    const token = await this.jwtService.signAsync(payload);
+    return token;
   }
 
   async register(userDTO: CreateUserDTO) {

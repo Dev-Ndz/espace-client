@@ -10,12 +10,14 @@ import { AuthService } from './auth.service';
 import { Prisma, Role } from '@prisma/client';
 import { CreateUserDTO } from 'src/user/create-user.dto';
 import { Response } from 'express';
+import { Public } from './public.decorators';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
+  @Public()
   @Post('login')
   async login(
     @Body() userData: { email: string; password: string },
@@ -36,6 +38,7 @@ export class AuthController {
     return res.send({ message: 'Connexion réussie' });
   }
 
+  @Public()
   @Post('register')
   async register(
     @Body()

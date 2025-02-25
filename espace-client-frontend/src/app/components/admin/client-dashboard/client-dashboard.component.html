@@ -1,1 +1,29 @@
-<p>client-dashboard works!</p>
+<section class="flex flex-row items-center gap-4 mb-2">
+  <h2 class="font-mono text-2xl tracking-wider uppercase">Clients</h2>
+  <p-button
+    [rounded]="true"
+    icon="pi pi-plus"
+    size="small"
+    variant="text"
+    (onClick)="newClient()"
+  ></p-button>
+</section>
+<section>
+  @for (client of clients; track client.id) {
+  <div class="flex flex-row items-center justify-between py-2 text-lg w-72">
+    <div class="flex flex-row items-center gap-2">
+      <i class="pi pi-building"></i>
+      <p-button variant="text">{{ client.name }}</p-button>
+    </div>
+
+    <p-menu #menu [model]="items" [popup]="true" />
+    <p-button
+      (click)="menu.toggle($event)"
+      icon="pi pi-ellipsis-v"
+      variant="text"
+      [rounded]="true"
+      size="small"
+    />
+  </div>
+  }
+</section>
