@@ -1,4 +1,5 @@
 <section class="flex flex-row items-center gap-4 mb-2">
+  <p-toast />
   <h2 class="font-mono text-2xl tracking-wider uppercase">Clients</h2>
   <p-button
     [rounded]="true"
@@ -18,7 +19,7 @@
 
     <p-menu #menu [model]="items" [popup]="true" />
     <p-button
-      (click)="menu.toggle($event)"
+      (click)="menu.toggle($event); selectedClientId = client.id"
       icon="pi pi-ellipsis-v"
       variant="text"
       [rounded]="true"

@@ -23,4 +23,8 @@ export class ClientService {
       error: (err) => console.error(err),
     });
   }
+
+  addClient(clientId: string) {
+    return this.http.post(environment.apiUrl + '/invitation', { clientId });
+  }
 }

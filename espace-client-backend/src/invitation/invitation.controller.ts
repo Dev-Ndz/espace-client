@@ -7,7 +7,7 @@ export class InvitationController {
 
   @Post()
   async createInvitation(@Body() data: { clientId: string }) {
-    const url = this.invitationService.generateUrl(data.clientId);
-    return url;
+    const url = await this.invitationService.generateUrl(data.clientId);
+    return { url };
   }
 }
