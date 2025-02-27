@@ -10,11 +10,13 @@ import { RegisterComponent } from './components/auth/register/register.component
 import { AdminPageComponent } from './components/admin/admin-page/admin-page.component';
 import { ClientDashboardComponent } from './components/admin/client-dashboard/client-dashboard.component';
 import { ClientComponent } from './components/admin/client/client.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
     path: 'user',
     component: UserComponent,
+    canActivate: [authGuard],
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'documents', component: DocumentsComponent },
@@ -33,12 +35,13 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    canActivate: [authGuard],
     component: AdminPageComponent,
     children: [
       { path: 'client-dashboard', component: ClientDashboardComponent },
       { path: 'client', component: ClientComponent },
     ],
   },
-  { path: '', redirectTo: 'user/home', pathMatch: 'full' }, // Redirection par défaut
-  { path: '**', redirectTo: 'user/home', pathMatch: 'full' }, // Redirection en cas d'erreur d'URL
+  { path: '', redirectTo: 'admin/client-dashboard', pathMatch: 'full' }, // Redirection par défaut
+  { path: '**', redirectTo: 'admin/client-dashboard', pathMatch: 'full' }, // Redirection en cas d'erreur d'URL
 ];

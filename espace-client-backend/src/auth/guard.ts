@@ -10,7 +10,6 @@ import { Request } from 'express';
 import { env } from 'process';
 import { UserService } from 'src/user/user.service';
 import { JwtPayload } from './jwt-payload';
-import * as cookie from 'cookie';
 import { IS_PUBLIC_KEY } from './public.decorators';
 import { Reflector } from '@nestjs/core';
 

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -8,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Prisma, Role } from '@prisma/client';
-import { CreateUserDTO } from 'src/user/create-user.dto';
 import { Response } from 'express';
 import { Public } from './public.decorators';
 
@@ -16,7 +16,6 @@ import { Public } from './public.decorators';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
   @Public()
   @Post('login')
   async login(
@@ -28,7 +27,7 @@ export class AuthController {
       userData.password,
     );
 
-    res.cookie('access_token', token, {
+    res.cookie('token', token, {
       httpOnly: true, // Empêche l'accès au cookie via JS
       secure: false, // ⚠️ Désactivé en localhost (HTTPS pas nécessaire)
       sameSite: 'lax', // Meilleure compatibilité pour localhost
@@ -52,5 +51,10 @@ export class AuthController {
     const newUser = await this.authService.register(userData);
     console.log('newUser : ', newUser);
     return { message: 'Inscription réussie' };
+  }
+
+  @Get('isAuthenticated')
+  async isAuthenticated() {
+    return { isAuthenticated: true };
   }
 }
