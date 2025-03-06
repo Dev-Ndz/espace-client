@@ -7,7 +7,7 @@ import { Roles } from './roles.decorator';
 import { Role } from './role.enum';
 import { CurrentUser } from './user.decorators';
 import { User } from '@prisma/client';
-import { ClientService } from 'src/client/client.service';
+import { ClientService } from '../client/client.service';
 
 @Controller('auth')
 export class AuthController {

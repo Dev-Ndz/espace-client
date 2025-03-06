@@ -10,8 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
-import { Client, Prisma } from '@prisma/client';
-import { AuthGuard } from 'src/auth/guard';
+import { Prisma } from '@prisma/client';
 
 @Controller('client')
 export class ClientController {

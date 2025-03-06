@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { env } from 'process';
-import { ClientService } from 'src/client/client.service';
-import { PrismaService } from 'src/prisma.service';
+import { ClientService } from '../client/client.service';
+import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class InvitationService {
