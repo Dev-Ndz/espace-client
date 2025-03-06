@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { ClientComponent } from "../../../admin/client/client.component";
 
 @Component({
   selector: 'app-user-info',
-  imports: [],
+  imports: [ClientComponent],
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.scss'
 })

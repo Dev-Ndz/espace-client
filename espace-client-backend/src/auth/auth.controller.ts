@@ -1,20 +1,21 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, Headers } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Prisma, Role } from '@prisma/client';
 import { Response } from 'express';
 import { Public } from './public.decorators';
+import { JwtService } from '@nestjs/jwt';
+import { Roles } from './roles.decorator';
+import { Role } from './role.enum';
+import { CurrentUser } from './user.decorators';
+import { User } from '@prisma/client';
+import { ClientService } from 'src/client/client.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private jwtService: JwtService,
+    private clientService: ClientService,
+  ) {}
 
   @Public()
   @Post('login')
@@ -47,14 +48,41 @@ export class AuthController {
       clientId: string;
       role?: Role;
     },
+    @Headers('authorization') authHeader: string, // Récupère l'en-tête Authorization
   ) {
+    console.log('Authorization Header:', authHeader);
+    if (authHeader) {
+      const token = authHeader?.split(' ')[1]; // Supprime "Bearer " pour ne garder que le token
+      const jwtPayload = this.jwtService.decode(token);
+      userData.clientId = jwtPayload.clientId;
+    }
     const newUser = await this.authService.register(userData);
-    console.log('newUser : ', newUser);
-    return { message: 'Inscription réussie' };
+    return { message: 'Inscription réussie', user: newUser };
+  }
+  @Public()
+  @Get('logout')
+  async logout(@Res() res: Response) {
+    console.log('logout request...');
+    res.clearCookie('token');
+    return res.send({ message: 'Logged out' });
   }
 
   @Get('isAuthenticated')
   async isAuthenticated() {
     return { isAuthenticated: true };
+  }
+
+  @Get('isAdmin')
+  @Roles(Role.ADMIN)
+  async isAdmin() {
+    return { isAdmin: true };
+  }
+
+  @Get('me')
+  async me(@CurrentUser() user: User) {
+    const id = user.clientId;
+    console.log(id);
+    const client = await this.clientService.findOne({ id: id });
+    return client;
   }
 }

@@ -1,17 +1,19 @@
-<div >
+<div class="flex flex-col h-screen">
   <app-header />
 
-  <div class="flex flex-row px-8 py-4">
-    <aside>
+  <div class="flex flex-row h-full px-8 py-4">
+    <aside class="">
       <img
         [src]="client?.logo"
         alt="logo"
-        class="w-60 aspect-[4/5] object-cover"
+        class="w-60 aspect-[4/5] object-cover py-4"
       />
+      <h2 class="py-4 font-mono text-lg text-center uppercase">
+        {{ client?.name }}
+      </h2>
       <app-navigation />
     </aside>
-    <div class="px-4">
-      {{ client?.name }}
+    <div class="flex items-center justify-center w-full px-4">
       <router-outlet />
     </div>
   </div>

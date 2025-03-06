@@ -10,7 +10,8 @@ import { RegisterComponent } from './components/auth/register/register.component
 import { AdminPageComponent } from './components/admin/admin-page/admin-page.component';
 import { ClientDashboardComponent } from './components/admin/client-dashboard/client-dashboard.component';
 import { ClientComponent } from './components/admin/client/client.component';
-import { authGuard } from './auth.guard';
+import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -35,11 +36,12 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivate: [authGuard],
+    canActivate: [adminGuard],
     component: AdminPageComponent,
     children: [
       { path: 'client-dashboard', component: ClientDashboardComponent },
-      { path: 'client', component: ClientComponent },
+      { path: 'client/:mode/:id', component: ClientComponent },
+      { path: 'client/:mode', component: ClientComponent }, // Route sans ID pour les cas où il n'est pas nécessaire
     ],
   },
   { path: '', redirectTo: 'admin/client-dashboard', pathMatch: 'full' }, // Redirection par défaut
