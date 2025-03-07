@@ -1,0 +1,60 @@
+<div class="flex flex-row h-screen">
+  <div class="flex-1 hidden h-screen md:block">
+    <img
+      class="object-cover w-full h-full"
+      src="https://www.luciledizier.be/wp-content/uploads/2024/01/23-1123-Ioana-Voicu-WEB-7.jpg"
+      alt="logo"
+    />
+  </div>
+
+  <div class="flex flex-col items-center justify-center flex-1">
+    <h1 class="mb-8 font-mono text-2xl tracking-widest uppercase">
+      se connecter
+    </h1>
+    <form
+      class="flex flex-col gap-4 w-72"
+      action=""
+      [formGroup]="profilForm"
+      (ngSubmit)="onLogin()"
+    >
+      <p-iconField iconPosition="left">
+        <p-inputIcon styleClass="pi pi-at" />
+        <input
+          class="w-full"
+          type="email"
+          name="email"
+          placeholder="email"
+          formControlName="email"
+          pInputText
+        />
+      </p-iconField>
+      <p-iconField iconPosition="left">
+        <p-inputIcon styleClass="pi pi-lock" />
+        <input
+          type="password"
+          name="password"
+          placeholder="password"
+          formControlName="password"
+          [fluid]="true"
+          pInputText
+        />
+      </p-iconField>
+
+      <!-- <p-toast /> -->
+
+      <p-button type="submit" [fluid]="true" class="mt-8">
+        login @if (loading) {
+        <i class="pi pi-spin pi-spinner"></i>
+        }
+      </p-button>
+    </form>
+    <!-- <div class="flex w-[25vw] flex-row justify-between">
+        <a
+          class="mt-4 no-underline text-text-color"
+          routerLink="/auth/forgot-password"
+        >
+          {{ "login.forgotPassword" }}
+        </a>
+      </div> -->
+  </div>
+</div>
