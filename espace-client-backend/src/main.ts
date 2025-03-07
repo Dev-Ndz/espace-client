@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
+import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -10,6 +11,18 @@ async function bootstrap() {
     'http://localhost:4200',
     'https://espace-client-ldz.netlify.app',
   ];
+
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
+      resave: true,
+      saveUninitialized: false,
+      cookie: {
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+        secure: process.env.NODE_ENV === 'production', // must be true if sameSite='none'
+      },
+    }),
+  );
 
   // app.setGlobalPrefix('api');
   app.enableCors({
