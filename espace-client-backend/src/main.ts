@@ -14,6 +14,7 @@ async function bootstrap() {
   // app.setGlobalPrefix('api');
   app.enableCors({
     origin: allowedOrigins, // Remplacez "*" par l'origine spécifique pour plus de sécurité en production
+    credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Accept, Authorization, Cookie', // Ajouter d'autres headers si nécessaire
   });
