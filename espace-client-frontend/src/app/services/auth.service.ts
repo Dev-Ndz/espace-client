@@ -51,7 +51,9 @@ export class AuthService {
 
   isAuthenticated(): Observable<boolean> {
     return this.http
-      .get<boolean>(environment.apiUrl + '/auth/isAuthenticated')
+      .get<boolean>(environment.apiUrl + '/auth/isAuthenticated', {
+        withCredentials: true, // Permet l'envoi des cookies
+      })
       .pipe(
         map((isAuthenticated) => {
           return isAuthenticated;
@@ -63,14 +65,18 @@ export class AuthService {
       );
   }
   isAdmin(): Observable<boolean> {
-    return this.http.get<boolean>(environment.apiUrl + '/auth/isAdmin').pipe(
-      map((isAuthenticated) => {
-        return isAuthenticated;
-      }),
-      catchError((err) => {
-        console.error(err);
-        return of(false);
+    return this.http
+      .get<boolean>(environment.apiUrl + '/auth/isAdmin', {
+        withCredentials: true, // Permet l'envoi des cookies
       })
-    );
+      .pipe(
+        map((isAuthenticated) => {
+          return isAuthenticated;
+        }),
+        catchError((err) => {
+          console.error(err);
+          return of(false);
+        })
+      );
   }
 }

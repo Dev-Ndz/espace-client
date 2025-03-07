@@ -15,7 +15,7 @@ async function bootstrap() {
   app.enableCors({
     origin: allowedOrigins, // Remplacez "*" par l'origine spécifique pour plus de sécurité en production
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Accept, Authorization', // Ajouter d'autres headers si nécessaire
+    allowedHeaders: 'Content-Type, Accept, Authorization, Cookie', // Ajouter d'autres headers si nécessaire
   });
   app.use(cookieParser());
   await app.listen(process.env.PORT ?? 3000);
