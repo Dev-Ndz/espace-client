@@ -18,6 +18,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Accept, Authorization, Cookie', // Ajouter d'autres headers si nécessaire
   });
+  app.set('trust proxy', 1);
   app.use(cookieParser());
   await app.listen(process.env.PORT ?? 3000);
   console.log('listening to port: ', process.env.PORT ?? 3000);
