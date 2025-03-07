@@ -30,8 +30,8 @@ export class AuthController {
 
     res.cookie('token', token, {
       httpOnly: true, // Empêche l'accès au cookie via JS
-      secure: process.env.NODE_ENV === 'production', // ⚠️ Désactivé en localhost (HTTPS pas nécessaire)
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Meilleure compatibilité pour localhost
+      secure: true, // ⚠️ Désactivé en localhost (HTTPS pas nécessaire)
+      sameSite: 'none', // Meilleure compatibilité pour localhost
       maxAge: 7 * 24 * 60 * 60 * 1000, // Expiration : 7 jours
     });
 
