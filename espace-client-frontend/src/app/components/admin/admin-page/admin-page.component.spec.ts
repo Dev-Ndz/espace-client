@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdminPageComponent } from './admin-page.component';
+import { provideHttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 describe('AdminPageComponent', () => {
   let component: AdminPageComponent;
@@ -8,9 +10,15 @@ describe('AdminPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminPageComponent]
-    })
-    .compileComponents();
+      imports: [AdminPageComponent],
+      providers: [
+        provideHttpClient(),
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { params: { id: '123' } } },
+        },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AdminPageComponent);
     component = fixture.componentInstance;

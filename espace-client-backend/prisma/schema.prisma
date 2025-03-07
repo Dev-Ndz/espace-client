@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Client {
-  id          String   @id @default(uuid()) @db.Uuid
+  id          String    @id @default(uuid()) @db.Uuid
   name        String 
   description String?  
   logo        String?  
@@ -23,6 +23,32 @@ model Client {
   TVA         Boolean? 
   TVANumber   String?     
   email       String?  
-  phone       Int?  
-  createdAt   DateTime @default(now())
+  phone       String?  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?
+  users       User[]
+
+  Invitation Invitation[]
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id          String  @id @default(uuid()) @db.Uuid
+  email       String  @unique
+  password    String
+  role        Role    @default(USER)
+  clientId    String  @db.Uuid
+  client      Client  @relation(fields: [clientId], references: [id])
+}
+
+model Invitation {
+  id                String   @id @default(uuid()) @db.Uuid
+  clientId          String   @db.Uuid
+  isAccountCreated  Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  client            Client   @relation(fields: [clientId], references: [id])
 }

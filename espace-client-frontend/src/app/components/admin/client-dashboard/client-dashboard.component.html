@@ -1,1 +1,68 @@
-<p>client-dashboard works!</p>
+@if(loading){
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30"
+>
+  <i class="pi pi-spin pi-spinner" style="font-size: 2.5rem; color: white"></i>
+</div>
+}
+
+<section class="flex flex-row items-center gap-4 mb-2">
+  <p-toast />
+  <h2 class="font-mono text-2xl tracking-wider uppercase">Clients</h2>
+  <p-button
+    [rounded]="true"
+    icon="pi pi-plus"
+    size="small"
+    variant="text"
+    (onClick)="newClient()"
+  ></p-button>
+</section>
+<section>
+  @for (client of clients; track client.id) {
+  <div class="flex flex-row items-center justify-between py-2 text-lg w-72">
+    <div class="flex flex-row items-center gap-2">
+      <i class="pi pi-building"></i>
+      <p-button variant="text" (click)="viewClient(client.id!)">{{
+        client.name
+      }}</p-button>
+    </div>
+
+    <p-menu #menu [model]="items" [popup]="true" />
+    <p-button
+      (click)="menu.toggle($event); selectedClientId = client.id!"
+      icon="pi pi-ellipsis-v"
+      variant="text"
+      [rounded]="true"
+      size="small"
+    />
+  </div>
+  }
+</section>
+
+<div class="flex justify-center card">
+  <!-- <p-button (click)="showDialog()" label="Show" /> -->
+  <p-dialog
+    header="Lien d'invitation"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '25rem', height: '12rem' }"
+  >
+    @if(this.loading){
+    <div class="flex items-center justify-center w-full h-full">
+      <i class="pi pi-spin pi-spinner"></i>
+    </div>
+
+    }@else{
+    <p-inputgroup>
+      <input pInputText [value]="link" readonly />
+      <p-inputgroup-addon>
+        <p-button
+          icon="pi pi-copy"
+          severity="secondary"
+          (onClick)="copyLink()"
+        />
+      </p-inputgroup-addon>
+    </p-inputgroup>
+    }
+  </p-dialog>
+</div>
