@@ -16,7 +16,9 @@ export class AuthService {
 
   login(email: string, password: string): Observable<string> {
     const loginData = { email, password };
-    return this.http.post<string>(this.apiUrlLogin, loginData);
+    return this.http.post<string>(this.apiUrlLogin, loginData, {
+      withCredentials: true, // Permet l'envoi des cookies
+    });
   }
 
   logout() {
