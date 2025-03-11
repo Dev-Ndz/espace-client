@@ -1,5 +1,0 @@
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "https://mon-api.herokuapp.com"
-    Access-Control-Allow-Credentials = "true"
