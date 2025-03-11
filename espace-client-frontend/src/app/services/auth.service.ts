@@ -16,9 +16,7 @@ export class AuthService {
 
   login(email: string, password: string): Observable<string> {
     const loginData = { email, password };
-    return this.http.post<string>(this.apiUrlLogin, loginData, {
-      withCredentials: true, // Permet l'envoi des cookies
-    });
+    return this.http.post<string>(this.apiUrlLogin, loginData);
   }
 
   logout() {
@@ -53,9 +51,7 @@ export class AuthService {
 
   isAuthenticated(): Observable<boolean> {
     return this.http
-      .get<boolean>(environment.apiUrl + '/auth/isAuthenticated', {
-        withCredentials: true, // Permet l'envoi des cookies
-      })
+      .get<boolean>(environment.apiUrl + '/auth/isAuthenticated')
       .pipe(
         map((isAuthenticated) => {
           return isAuthenticated;
@@ -67,18 +63,14 @@ export class AuthService {
       );
   }
   isAdmin(): Observable<boolean> {
-    return this.http
-      .get<boolean>(environment.apiUrl + '/auth/isAdmin', {
-        withCredentials: true, // Permet l'envoi des cookies
+    return this.http.get<boolean>(environment.apiUrl + '/auth/isAdmin').pipe(
+      map((isAuthenticated) => {
+        return isAuthenticated;
+      }),
+      catchError((err) => {
+        console.error(err);
+        return of(false);
       })
-      .pipe(
-        map((isAuthenticated) => {
-          return isAuthenticated;
-        }),
-        catchError((err) => {
-          console.error(err);
-          return of(false);
-        })
-      );
+    );
   }
 }
