@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Client } from '../models/client';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +11,9 @@ export class ClientService {
   http = inject(HttpClient);
   clients = signal<Client[]>([]);
   client = signal<Client | undefined>(undefined);
+
+  CLIENT_API_URL = environment.apiUrl + '/client';
+  API_URL = environment.apiUrl;
 
   getConnectedClient(): void {
     this.http
@@ -25,11 +28,11 @@ export class ClientService {
     if (client) {
       return of(client);
     } else {
-      return this.http.get<Client>(`${environment.apiUrl}/client/${clientId}`);
+      return this.http.get<Client>(`${this.CLIENT_API_URL}/${clientId}`);
     }
   }
   getAllClients() {
-    this.http.get<Client[]>(environment.apiUrl + '/client').subscribe({
+    this.http.get<Client[]>(this.CLIENT_API_URL).subscribe({
       next: (clients) => {
         this.clients.set(clients);
       },
@@ -37,7 +40,7 @@ export class ClientService {
     });
   }
   createClient(client: Client): Observable<Client> {
-    return this.http.post<Client>(environment.apiUrl + '/client', client);
+    return this.http.post<Client>(this.CLIENT_API_URL, client);
   }
   updateClient(client: Client, id: string): Observable<Client> {
     return this.http.patch<Client>(
@@ -46,11 +49,11 @@ export class ClientService {
     );
   }
   deleteClient(id: string): Observable<Client> {
-    return this.http.delete<Client>(environment.apiUrl + '/client/' + id);
+    return this.http.delete<Client>(this.CLIENT_API_URL + '/' + id);
   }
 
   addUser(clientId: string): Observable<{ url: string }> {
-    return this.http.post<{ url: string }>(environment.apiUrl + '/invitation', {
+    return this.http.post<{ url: string }>(this.API_URL + '/invitation', {
       clientId,
     });
   }
