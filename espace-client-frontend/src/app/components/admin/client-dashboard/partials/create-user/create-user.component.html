@@ -1,0 +1,27 @@
+<div class="flex justify-center card">
+
+  <p-dialog
+    header="Lien d'invitation"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '25rem', height: '12rem' }"
+  >
+    @if(this.loadingService.loading()){
+    <div class="flex items-center justify-center w-full h-full">
+      <i class="pi pi-spin pi-spinner"></i>
+    </div>
+
+    }@else{
+    <p-inputgroup>
+      <input pInputText [value]="link" readonly />
+      <p-inputgroup-addon>
+        <p-button
+          icon="pi pi-copy"
+          severity="secondary"
+          (onClick)="copyLink()"
+        />
+      </p-inputgroup-addon>
+    </p-inputgroup>
+    }
+  </p-dialog>
+</div>

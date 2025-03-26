@@ -1,68 +1,33 @@
-<section class="flex flex-row items-center gap-4 mb-4">
-  <h2 class="font-mono text-2xl tracking-wider uppercase">
-    {{
-      mode === "new"
-        ? "Nouveau Client"
-        : mode === "edit"
-        ? "Editer Client"
-        : client?.name
-    }}
-  </h2>
-  @if(mode === 'view'){
-  <p-button
-    icon="pi pi-pencil"
-    [rounded]="true"
-    [text]="true"
-    (click)="this.switchToEdit()"
-  />
-  }
-</section>
-<p-toast />
 <form [formGroup]="clientForm" (ngSubmit)="onSubmit()" class="w-96">
   <div class="flex flex-col justify-between py-2">
     <label class="font-mono text-xs uppercase" for="name">Nom</label>
-    @if(mode === "view"){
-    <p>{{ client?.name }}</p>
-    }@else { <input id="name" type="text" pInputText formControlName="name" />}
+    <input id="name" type="text" pInputText formControlName="name" />
   </div>
 
   <div class="flex flex-col justify-between py-2">
     <label class="font-mono text-xs uppercase" for="description"
       >Description</label
     >
-    @if(mode === "view"){
-    <p>{{ client?.description }}</p>
-    }@else {
     <input
       id="description"
       type="text"
       pInputText
       formControlName="description"
-    />}
+    />
   </div>
 
   <div class="flex flex-col justify-between py-2">
     <label class="font-mono text-xs uppercase" for="logo">Logo</label>
-    @if(mode === "view"){
-    <p>{{ client?.logo }}</p>
-    }@else{
     <input id="logo" type="text" pInputText formControlName="logo" />
-    }
   </div>
 
   <div class="flex flex-col justify-between py-2">
     <label class="font-mono text-xs uppercase" for="address">Adresse</label>
-    @if(mode === "view"){
-    <p>{{ client?.address }}</p>
-    }@else {
-    <input id="address" type="text" pInputText formControlName="address" />}
+    <input id="address" type="text" pInputText formControlName="address" />
   </div>
 
   <div class="flex flex-row items-center gap-2 py-2">
-    @if(mode === "view"){
-    <i [className]="client?.TVA ? 'pi pi-check' : 'pi pi-cross'"></i>
-    } @else {
-    <p-checkbox id="TVA" formControlName="TVA" binary="true"></p-checkbox> }
+    <p-checkbox id="TVA" formControlName="TVA" binary="true"></p-checkbox>
     <label class="font-mono text-xs uppercase" for="TVA">TVA</label>
   </div>
   @if(clientForm.get('TVA')?.value || client?.TVA){
@@ -70,41 +35,30 @@
     <label class="font-mono text-xs uppercase" for="TVANumber">
       Numéro TVA</label
     >
-    @if(mode === "view"){
-    <p>{{ client?.TVANumber }}</p>
-    }@else {
-    <input id="TVANumber" type="text" pInputText formControlName="TVANumber" />}
+    <input id="TVANumber" type="text" pInputText formControlName="TVANumber" />
   </div>
   }
 
   <div class="flex flex-col justify-between py-2">
     <label class="font-mono text-xs uppercase" for="email">Email</label>
-    @if(mode === "view"){
-    <p>{{ client?.email }}</p>
-    }@else {
-    <input id="email" type="email" pInputText formControlName="email" />}
+    <input id="email" type="email" pInputText formControlName="email" />
   </div>
 
   <div class="flex flex-col justify-between py-2">
     <label class="font-mono text-xs uppercase" for="phone">Téléphone</label>
-    @if(mode === "view"){
-    <p>{{ client?.phone }}</p>
-    }@else {
-    <input id="phone" type="text" pInputText formControlName="phone" />}
+    <input id="phone" type="text" pInputText formControlName="phone" />
   </div>
 
   <div class="mt-4 p-field p-col-12">
-    @if(mode !== "view"){
-
     <p-button
       class="font-mono uppercase"
       type="submit"
       [disabled]="clientForm.invalid"
       [fluid]="true"
     >
-      {{ mode === "new" ? "Créer" : "Mettre à jour" }} @if (loading) {
+      {{ "valider" }} @if (loading) {
       <i class="pi pi-spin pi-spinner"></i>
       }</p-button
-    >}
+    >
   </div>
 </form>

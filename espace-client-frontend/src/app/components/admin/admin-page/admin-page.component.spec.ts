@@ -28,4 +28,13 @@ describe('AdminPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('devrait contenir le composant header', () => {
+    const headerElement = fixture.nativeElement.querySelector('app-header');
+    expect(headerElement).toBeTruthy();
+  });
+
+  it('devrait contenir un router-outlet', () => {
+    const routerOutlet = fixture.nativeElement.querySelector('router-outlet');
+    expect(routerOutlet).toBeTruthy();
+  });
 });

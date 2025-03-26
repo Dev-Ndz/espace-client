@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Client } from '../models/client';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -23,12 +23,16 @@ export class ClientService {
       });
   }
 
-  getClientById(clientId: string): Observable<Client> {
+  getClientById(clientId: string): void {
     const client = this.clients().find((client) => client.id === clientId);
     if (client) {
-      return of(client);
+      this.client.set(client);
     } else {
-      return this.http.get<Client>(`${this.CLIENT_API_URL}/${clientId}`);
+      this.http
+        .get<Client>(`${this.CLIENT_API_URL}/${clientId}`)
+        .subscribe((client) => {
+          this.client.set(client);
+        });
     }
   }
   getAllClients() {
@@ -55,6 +59,12 @@ export class ClientService {
   addUser(clientId: string): Observable<{ url: string }> {
     return this.http.post<{ url: string }>(this.API_URL + '/invitation', {
       clientId,
+    });
+  }
+
+  removeClientFromClientsList(clientId: string) {
+    this.clients.update((clients) => {
+      return clients.filter((client) => client.id !== clientId);
     });
   }
 }

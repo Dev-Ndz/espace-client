@@ -1,0 +1,48 @@
+<section class="w-96">
+  <div class="flex flex-col justify-between py-2">
+    <label class="font-mono text-xs uppercase" for="name">Nom</label>
+    <p>{{ client?.name }}</p>
+  </div>
+
+  <div class="flex flex-col justify-between py-2">
+    <label class="font-mono text-xs uppercase" for="description"
+      >Description</label
+    >
+    <p>{{ client?.description }}</p>
+  </div>
+
+  <div class="flex flex-col justify-between py-2">
+    <label class="font-mono text-xs uppercase" for="logo">Logo</label>
+
+    <p>{{ client?.logo }}</p>
+  </div>
+
+  <div class="flex flex-col justify-between py-2">
+    <label class="font-mono text-xs uppercase" for="address">Adresse</label>
+
+    <p>{{ client?.address }}</p>
+  </div>
+
+  <div class="flex flex-row items-center gap-2 py-2">
+    <label class="font-mono text-xs uppercase" for="TVA">TVA</label>
+    <i [className]="client?.TVA ? 'pi pi-check' : 'pi pi-cross'"></i>
+  </div>
+  @if(client?.TVA){
+  <div class="flex flex-col justify-between py-2">
+    <label class="font-mono text-xs uppercase" for="TVANumber">
+      Numéro TVA</label
+    >
+    <p>{{ client?.TVANumber }}</p>
+  </div>
+  }
+
+  <div class="flex flex-col justify-between py-2">
+    <label class="font-mono text-xs uppercase" for="email">Email</label>
+    <p>{{ client?.email }}</p>
+  </div>
+
+  <div class="flex flex-col justify-between py-2">
+    <label class="font-mono text-xs uppercase" for="phone">Téléphone</label>
+    <p>{{ client?.phone }}</p>
+  </div>
+</section>

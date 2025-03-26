@@ -9,9 +9,9 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { AdminPageComponent } from './components/admin/admin-page/admin-page.component';
 import { ClientDashboardComponent } from './components/admin/client-dashboard/client-dashboard.component';
-import { ClientComponent } from './components/admin/client/client.component';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
+import { ManageClientComponent } from './components/admin/manage-client/manage-client.component';
 
 export const routes: Routes = [
   {
@@ -40,8 +40,8 @@ export const routes: Routes = [
     component: AdminPageComponent,
     children: [
       { path: 'client-dashboard', component: ClientDashboardComponent },
-      { path: 'client/:mode/:id', component: ClientComponent },
-      { path: 'client/:mode', component: ClientComponent }, // Route sans ID pour les cas où il n'est pas nécessaire
+      { path: 'client/:mode/:id', component: ManageClientComponent },
+      { path: 'client/:mode', component: ManageClientComponent }, // Route sans ID pour les cas où il n'est pas nécessaire
     ],
   },
   { path: '', redirectTo: 'admin/client-dashboard', pathMatch: 'full' }, // Redirection par défaut
