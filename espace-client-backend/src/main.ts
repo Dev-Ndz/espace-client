@@ -12,19 +12,21 @@ async function bootstrap() {
     'https://espace-client-ldz.netlify.app',
   ];
 
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
-      resave: true,
-      saveUninitialized: false,
-      cookie: {
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
-        secure: process.env.NODE_ENV === 'production', // must be true if sameSite='none'
-      },
-    }),
-  );
+  // app.use(
+  //   session({
+  //     secret: process.env.SESSION_SECRET || 'Super Secret (change it)',
+  //     resave: true,
+  //     saveUninitialized: false,
+  //     cookie: {
+  //       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+  //       secure: process.env.NODE_ENV === 'production', // must be true if sameSite='none'
+  //     },
+  //   }),
+  // );
+  if (process.env.NODE_ENV !== 'production') {
+    app.setGlobalPrefix('api');
+  }
 
-  // app.setGlobalPrefix('api');
   app.enableCors({
     origin: allowedOrigins, // Remplacez "*" par l'origine spécifique pour plus de sécurité en production
     credentials: true,

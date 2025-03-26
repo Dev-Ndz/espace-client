@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { ClientComponent } from "../../../admin/client/client.component";
+import { ClientComponent } from '../../../shared/client/client.component';
 
 @Component({
   selector: 'app-user-info',
   imports: [ClientComponent],
   templateUrl: './user-info.component.html',
-  styleUrl: './user-info.component.scss'
+  styleUrl: './user-info.component.scss',
 })
-export class UserInfoComponent {
-
-}
+export class UserInfoComponent {}

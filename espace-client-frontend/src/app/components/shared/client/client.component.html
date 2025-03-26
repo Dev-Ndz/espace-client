@@ -1,0 +1,25 @@
+<section class="flex flex-row items-center gap-4 mb-4">
+  <h2 class="font-mono text-2xl tracking-wider uppercase">
+    {{
+      modeService.mode() === "new"
+        ? "Nouveau Client"
+        : modeService.mode() === "edit"
+        ? "Editer"
+        : client?.name
+    }}
+  </h2>
+  @if(modeService.mode() !== 'new'){
+  <p-button
+    [icon]="modeService.mode() === 'view' ? 'pi pi-pencil' : 'pi pi-arrow-left'"
+    [rounded]="true"
+    [text]="true"
+    (click)="this.modeService.switchMode()"
+  />
+  }
+</section>
+<p-toast />
+@if(modeService.mode() === "view"){
+<app-client-view [client]="client" />
+}@else {
+<app-client-form [client]="client" (clientFormEmiter)="onSubmit($event)" />
+}
