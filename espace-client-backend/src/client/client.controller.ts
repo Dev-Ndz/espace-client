@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseGuards,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { Prisma } from '@prisma/client';

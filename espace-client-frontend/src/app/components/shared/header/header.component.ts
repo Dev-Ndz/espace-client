@@ -13,7 +13,6 @@ export class HeaderComponent {
   authService = inject(AuthService);
   router = inject(Router);
   logout() {
-    console.log('click');
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/auth/login']);
     });

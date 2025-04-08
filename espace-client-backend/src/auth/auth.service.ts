@@ -45,7 +45,6 @@ export class AuthService {
       },
     };
     const user = await this.userService.create(prismaUserCreateInput);
-    console.log('user created');
     return user;
   }
 }

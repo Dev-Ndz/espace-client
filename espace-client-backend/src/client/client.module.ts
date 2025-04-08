@@ -4,6 +4,7 @@ import { ClientController } from './client.controller';
 import { PrismaService } from '../prisma.service';
 
 import { UserModule } from '../user/user.module';
+import { CaslAbilityFactory } from 'src/casl/casl-ability.factory/casl-ability.factory';
 
 @Module({
   imports: [UserModule],
@@ -11,6 +12,7 @@ import { UserModule } from '../user/user.module';
   providers: [
     ClientService,
     PrismaService,
+    CaslAbilityFactory,
     // {
     //   provide: APP_GUARD,
     //   useClass: AuthGuard,

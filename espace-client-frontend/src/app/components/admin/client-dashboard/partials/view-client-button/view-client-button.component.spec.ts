@@ -3,16 +3,24 @@ import { ViewClientButtonComponent } from './view-client-button.component';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ButtonModule } from 'primeng/button';
+import { ClientFormModeService } from '../../../../../services/client-form-mode.service';
+import { signal } from '@angular/core';
 
 describe('ViewClientButtonComponent', () => {
   let component: ViewClientButtonComponent;
   let fixture: ComponentFixture<ViewClientButtonComponent>;
   let router: Router;
-
+  let modeServiceMock: jasmine.SpyObj<ClientFormModeService>;
   beforeEach(async () => {
+    modeServiceMock = jasmine.createSpyObj('ClientFormModeService', ['set'], {
+      mode: signal('new'),
+    });
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, ButtonModule, ViewClientButtonComponent],
       declarations: [],
+      providers: [
+        { provide: ClientFormModeService, useValue: modeServiceMock },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ViewClientButtonComponent);
@@ -41,6 +49,7 @@ describe('ViewClientButtonComponent', () => {
       fixture.nativeElement.querySelector('p-button');
     buttonElement.dispatchEvent(new Event('click'));
 
-    expect(navigateSpy).toHaveBeenCalledWith(['admin/client', 'view', '1']);
+    expect(navigateSpy).toHaveBeenCalledWith(['admin/client', '1']);
+    expect(modeServiceMock.mode()).toBe('view');
   });
 });

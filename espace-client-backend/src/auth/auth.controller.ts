@@ -50,7 +50,6 @@ export class AuthController {
     },
     @Headers('authorization') authHeader: string, // Récupère l'en-tête Authorization
   ) {
-    console.log('Authorization Header:', authHeader);
     if (authHeader) {
       const token = authHeader?.split(' ')[1]; // Supprime "Bearer " pour ne garder que le token
       const jwtPayload = this.jwtService.decode(token);
@@ -81,7 +80,6 @@ export class AuthController {
   @Get('me')
   async me(@CurrentUser() user: User) {
     const id = user.clientId;
-    console.log(id);
     const client = await this.clientService.findOne({ id: id });
     return client;
   }

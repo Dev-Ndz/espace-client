@@ -7,15 +7,22 @@ import { ClientService } from '../../../../../services/client.service';
 // import { LoadingService } from '../../../../../services/loading.service';
 import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
+import { ClientFormModeService } from '../../../../../services/client-form-mode.service';
+import { signal } from '@angular/core';
 
 describe('ClientActionButtonComponent', () => {
   let component: ClientActionButtonComponent;
   let fixture: ComponentFixture<ClientActionButtonComponent>;
   let clientServiceSpy: jasmine.SpyObj<ClientService>;
   let messageServiceSpy: jasmine.SpyObj<MessageService>;
+  let modeServiceMock: jasmine.SpyObj<ClientFormModeService>;
   // let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
 
   beforeEach(async () => {
+    modeServiceMock = jasmine.createSpyObj('ClientFormModeService', ['set'], {
+      mode: signal('new'),
+    });
+
     clientServiceSpy = jasmine.createSpyObj('ClientService', [
       'deleteClient',
       'clients',
@@ -35,6 +42,7 @@ describe('ClientActionButtonComponent', () => {
       providers: [
         { provide: ClientService, useValue: clientServiceSpy },
         { provide: MessageService, useValue: messageServiceSpy },
+        { provide: ClientFormModeService, useValue: modeServiceMock },
         // { provide: LoadingService, useValue: loadingServiceSpy },
       ],
     }).compileComponents();
@@ -59,7 +67,8 @@ describe('ClientActionButtonComponent', () => {
   it('should navigate to edit client page', () => {
     const routerSpy = spyOn(component.router, 'navigate');
     component.editClient();
-    expect(routerSpy).toHaveBeenCalledWith(['admin/client', 'edit', '123']);
+    expect(modeServiceMock.mode()).toBe('edit');
+    expect(routerSpy).toHaveBeenCalledWith(['admin/client', '123']);
   });
 
   it('should call deleteClient and update clients list on success', () => {
@@ -83,7 +92,6 @@ describe('ClientActionButtonComponent', () => {
       summary: 'Erreur',
       detail: 'Erreur lors de la suppression du client',
     });
-    // expect(loadingServiceSpy.loading.set).toHaveBeenCalledWith(false);
   });
 
   it('should call createUserComponent if defined', () => {

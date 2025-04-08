@@ -20,7 +20,6 @@ export class AuthService {
   }
 
   logout() {
-    console.log('service logout');
     return this.http.get(this.APIURL_LOGOUT);
   }
 

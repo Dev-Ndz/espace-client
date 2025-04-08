@@ -1,4 +1,4 @@
-import { Component, effect, inject, Input } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { ClientService } from '../../../services/client.service';
 import { Client } from '../../../models/client';
 import { Router } from '@angular/router';
@@ -21,14 +21,14 @@ import { ClientFormModeService } from '../../../services/client-form-mode.servic
   templateUrl: './client.component.html',
   styleUrl: './client.component.scss',
 })
-export class ClientComponent {
+export class ClientComponent implements OnInit {
   private clientService = inject(ClientService);
   private router = inject(Router);
   private messageService = inject(MessageService);
   public modeService = inject(ClientFormModeService);
 
   public loading = false;
-  @Input() userType?: 'USER' | 'ADMIN';
+  userType?: 'USER' | 'ADMIN';
   client?: Client;
 
   constructor() {
@@ -36,7 +36,13 @@ export class ClientComponent {
       this.client = this.clientService.client();
     });
   }
-
+  ngOnInit() {
+    if (this.router.url.includes('/admin')) {
+      this.userType = 'ADMIN';
+    } else {
+      this.userType = 'USER';
+    }
+  }
   switchMode() {
     this.modeService.switchMode();
   }

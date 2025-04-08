@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { LoadingService } from '../../../../../services/loading.service';
 import { CreateUserComponent } from '../create-user/create-user.component';
+import { ClientFormModeService } from '../../../../../services/client-form-mode.service';
 
 @Component({
   selector: 'app-client-action-button',
@@ -20,6 +21,7 @@ export class ClientActionButtonComponent {
   loadingService = inject(LoadingService);
   clientService = inject(ClientService);
   messageService = inject(MessageService);
+  modeService = inject(ClientFormModeService);
   @ViewChild(CreateUserComponent) createUserComponent!: CreateUserComponent;
   items: MenuItem[] = [
     {
@@ -45,7 +47,8 @@ export class ClientActionButtonComponent {
     },
   ];
   editClient(): void {
-    this.router.navigate(['admin/client', 'edit', this.clientId]);
+    this.modeService.mode.set('edit');
+    this.router.navigate(['admin/client', this.clientId]);
   }
   deleteClient() {
     this.loadingService.loading.set(true);

@@ -48,7 +48,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.token = params['token'] || null;
-      console.log('Token reçu:', this.token);
     });
   }
 
@@ -72,7 +71,6 @@ export class RegisterComponent implements OnInit {
     } else {
       const email = this.registerForm.get('email')?.value || '';
       const password = this.registerForm.get('password')?.value || '';
-      console.log(email, password, this.token);
       this.authService.register(email, password, this.token).subscribe({
         next: () => {
           this.messageService.add({

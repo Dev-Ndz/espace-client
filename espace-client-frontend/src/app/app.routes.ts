@@ -4,7 +4,6 @@ import { HomeComponent } from './components/user/pages/home/home.component';
 import { DocumentsComponent } from './components/user/pages/documents/documents.component';
 import { UserInfoComponent } from './components/user/pages/user-info/user-info.component';
 import { MoodboardComponent } from './components/user/pages/moodboard/moodboard.component';
-import { QuestionnaireComponent } from './components/user/pages/questionnaire/questionnaire.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { AdminPageComponent } from './components/admin/admin-page/admin-page.component';
@@ -12,6 +11,9 @@ import { ClientDashboardComponent } from './components/admin/client-dashboard/cl
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 import { ManageClientComponent } from './components/admin/manage-client/manage-client.component';
+import { QuestionnaireComponent } from './components/questionnaire/questionnaire.component';
+import { ClientComponent } from './components/shared/client/client.component';
+import { ManageQuestionnaireComponent } from './components/admin/manage-client/partials/manage-questionnaire/manage-questionnaire.component';
 
 export const routes: Routes = [
   {
@@ -40,9 +42,23 @@ export const routes: Routes = [
     component: AdminPageComponent,
     children: [
       { path: 'client-dashboard', component: ClientDashboardComponent },
-      { path: 'client/:mode/:id', component: ManageClientComponent },
-      { path: 'client/:mode', component: ManageClientComponent }, // Route sans ID pour les cas où il n'est pas nécessaire
+      { path: 'client', component: ClientComponent },
+      {
+        path: 'client/:id',
+        component: ManageClientComponent,
+        children: [
+          { path: 'info', component: ClientComponent },
+          {
+            path: 'questionnaire',
+            component: ManageQuestionnaireComponent,
+          },
+        ],
+      },
     ],
+  },
+  {
+    path: 'questionnaire',
+    component: QuestionnaireComponent,
   },
   { path: '', redirectTo: 'admin/client-dashboard', pathMatch: 'full' }, // Redirection par défaut
   { path: '**', redirectTo: 'admin/client-dashboard', pathMatch: 'full' }, // Redirection en cas d'erreur d'URL
