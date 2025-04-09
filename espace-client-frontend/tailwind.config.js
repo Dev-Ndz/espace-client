@@ -6,18 +6,20 @@ module.exports = {
     extend: {
       colors: {
         "text-color": "var(--color-text)",
+        "text-color-transparent": "var(--color-text-transparent)",
         "background-color": "var(--color-background)",
-      },
-      fontFamily: {
-        sans: ["'Source Sans 3'", ...defaultTheme.fontFamily.sans],
-        mono: ["Fragment Mono", ...defaultTheme.fontFamily.mono],
-      },
-      letterSpacing: {
-        wide: ".0625rem",
-        wider: ".125rem",
-        widest: ".25rem",
+        "background-light": "var(--color-background-light)",
+        fontFamily: {
+          sans: ["'Source Sans 3'", ...defaultTheme.fontFamily.sans],
+          mono: ["Fragment Mono", ...defaultTheme.fontFamily.mono],
+        },
+        letterSpacing: {
+          wide: ".0625rem",
+          wider: ".125rem",
+          widest: ".25rem",
+        },
       },
     },
+    plugins: [],
   },
-  plugins: [],
 };

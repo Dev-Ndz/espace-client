@@ -1,0 +1,8 @@
+@if(questionnaireService.formGroup){
+<form [formGroup]="questionnaireService.formGroup" class="p-8">
+  @for(question of questionnaireService.questions; track $index){
+  <app-question [index]="$index" />
+  }
+  <p-button (click)="questionnaireService.submitForm()">submit</p-button>
+</form>
+}
