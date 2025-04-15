@@ -15,10 +15,11 @@ export class QuestionComponent implements OnInit {
   @Input() index!: number;
   questionnaireService = inject(QuestionnaireService);
   question?: string;
-  get formControl(): FormControl<Delta | string | null> | null {
-    return this.questionnaireService.questionnaireForm?.at(this.index) ?? null;
-  }
+  // get formControl(): FormControl<Delta | string | null> | null {
+  //   return this.questionnaireService.questionnaireForm?.at(this.index) ?? null;
+  // }
   ngOnInit() {
-    this.question = this.questionnaireService.getQuestion(this.index);
+    // this.question = this.questionnaireService.getQuestion(this.index);
+    console.log();
   }
 }

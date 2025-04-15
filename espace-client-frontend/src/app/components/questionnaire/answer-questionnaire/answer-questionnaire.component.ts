@@ -12,14 +12,14 @@ import { QuestionComponent } from '../partials/question/question.component';
 })
 export class AnswerQuestionnaireComponent implements OnInit {
   questionnaireService = inject(QuestionnaireService);
-  answer1 =''
-  answer2 =''
+  answer1 = '';
+  answer2 = '';
 
-  onSubmit(){
-    this.questionnaireService.formGroup
+  onSubmit() {
+    console.log();
   }
   ngOnInit() {
+    console.log();
     // this.questionnaireService.loadQuestionnaire();
-    this.questionnaireService.initializeForm();
   }
 }

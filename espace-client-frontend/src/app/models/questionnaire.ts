@@ -1,7 +1,21 @@
-import { Question } from "./question";
-
 export interface Questionnaire {
-  id: string;
-  titre?: string;
-  questions: Question[];
+  id?: string;
+  title?: string;
+  isTemplate?: boolean;
+  clientId?: string;
+  createdAt?: Date;
+  sections?: Section[];
+}
+
+export interface Section {
+  id?: string;
+  title?: string;
+  questionnaireId?: string;
+  questions?: Question[];
+}
+export interface Question {
+  id?: string;
+  question?: string;
+  answer?: string;
+  sectionId?: string;
 }

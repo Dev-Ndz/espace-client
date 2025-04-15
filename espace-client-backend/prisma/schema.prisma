@@ -60,18 +60,26 @@ model Project {
 }
 
 model Questionnaire {
-  id            String  @id @default(uuid()) @db.Uuid
-  titre         String?
-  clientId      String  @db.Uuid
-  client        Client  @relation(fields: [clientId], references: [id])
-  createdAt     DateTime @default(now())
-  questions     Question[]
+  id            String    @id @default(uuid()) @db.Uuid
+  title         String?
+  clientId      String?   @db.Uuid
+  client        Client?   @relation(fields: [clientId], references: [id])
+  createdAt     DateTime  @default(now())
+  isTemplate    Boolean   @default(false)
+  sections      Section[]
+}
+model Section{
+  id                String  @id @default(uuid()) @db.Uuid
+  title             String?
+  questionnaireId   String @db.Uuid
+  questionnaire     Questionnaire @relation(fields: [questionnaireId], references: [id], onDelete: Cascade)
+  questions         Question[]
 }
 
 model Question {
   id                String @id @default(uuid()) @db.Uuid
-  question          String
+  question          String?
   answer            String?
-  questionnaireId   String @db.Uuid
-  questionnaire     Questionnaire @relation(fields: [questionnaireId], references: [id])
+  sectionId         String @db.Uuid
+  section           Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 }

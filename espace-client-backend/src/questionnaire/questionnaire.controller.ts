@@ -15,6 +15,7 @@ import { Prisma } from '@prisma/client';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/role.enum';
 import { RequestWithUser } from 'src/common/types/request-with-user';
+import { CreateQuestionnaireDto } from './dto/create-questionnaire.dto';
 
 @Controller('questionnaire')
 export class QuestionnaireController {
@@ -22,8 +23,9 @@ export class QuestionnaireController {
 
   @Post()
   @Roles(Role.ADMIN)
-  create(@Body() createQuestionnaireDto: Prisma.QuestionnaireCreateInput) {
-    return this.questionnaireService.create(createQuestionnaireDto);
+  create(@Body() dto: CreateQuestionnaireDto) {
+    console.log('✅ create triggered → body:', dto);
+    return this.questionnaireService.create(dto);
   }
 
   @Get()
@@ -38,8 +40,9 @@ export class QuestionnaireController {
   @Get('user/:clientId')
   @Roles(Role.ADMIN)
   async findByUser(@Param('clientId') clientId: string) {
+    console.log('✅ user/:clientId triggered → params:', clientId);
     return this.questionnaireService.findAll({
-      where: { clientId },
+      where: { clientId: clientId },
     });
   }
 
@@ -51,9 +54,11 @@ export class QuestionnaireController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateQuestionnaireDto: UpdateQuestionnaireDto,
+    @Body() createQuestionnaireDto: CreateQuestionnaireDto,
   ) {
-    return this.questionnaireService.update(+id, updateQuestionnaireDto);
+    console.log('✅ update triggered → params:', id);
+    console.log('✅ update triggered → body:', createQuestionnaireDto);   
+    return this.questionnaireService.update(id, createQuestionnaireDto);
   }
 
   @Delete(':id')

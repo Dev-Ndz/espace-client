@@ -4,59 +4,21 @@
 >
   <section class="flex flex-col">
     @for(section of questionnaireFormService.sectionsControls; track $index){
-    <form [formGroup]="section" class="p-4">
-      <div class="flex flex-col justify-between p-4">
-        <label
-          class="font-mono text-xs uppercase"
-          [for]="'sectiontitle' + $index"
-          >titre de section</label
-        >
-        <input
-          [id]="'sectiontitle' + $index"
-          type="text"
-          pInputText
-          formControlName="title"
-          placeholder="Titre de section"
-        />
-      </div>
-
-      @for(question of questionnaireFormService.getQuestions($index); track
-      $index){
-      <form [formGroup]="question" class="p-4">
-        <div class="flex flex-col justify-between py-2">
-          <label class="font-mono text-xs uppercase" [for]="'question' + $index"
-            >question</label
-          >
-          <input
-            [id]="'question' + $index"
-            type="text"
-            pInputText
-            formControlName="question"
-            placeholder="Question"
-          />
-        </div>
-        <div class="flex flex-col justify-between py-2">
-          <label class="font-mono text-xs uppercase" [for]="'answer' + $index"
-            >Réponse</label
-          >
-          <p-editor formControlName="answer" [id]="'answer' + $index" />
-        </div>
-      </form>
-
-      }
+    <app-questionnaire-section
+      [index]="$index"
+      [section]="section"
+      [editable]="true"
+    />}
+    <div>
       <p-button
-        label="ajouter une question"
-        (onClick)="questionnaireFormService.addQuestionToSection($index)"
+        label="ajouter une section"
+        (onClick)="questionnaireFormService.addSection()"
         text="true"
+        class="w-full"
       />
-    </form>
-    }
-    <p-button
-      label="ajouter une section"
-      (onClick)="questionnaireFormService.addSection()"
-      outlined="true"
-    />
+    </div>
   </section>
+
   <div class="flex flex-row">
     <p-button
       (onClick)="submit()"

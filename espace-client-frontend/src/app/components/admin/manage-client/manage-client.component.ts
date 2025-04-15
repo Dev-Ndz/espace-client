@@ -1,13 +1,12 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { ClientService } from '../../../services/client.service';
-import { ClientComponent } from '../../shared/client/client.component';
 import { ClientFormModeService } from '../../../services/client-form-mode.service';
-import { ManageClientMenuComponent } from "./partials/manage-client-menu/manage-client-menu.component";
+import { ManageClientMenuComponent } from './partials/manage-client-menu/manage-client-menu.component';
 
 @Component({
   selector: 'app-manage-client',
-  imports: [ClientComponent, RouterOutlet, ManageClientMenuComponent],
+  imports: [RouterOutlet, ManageClientMenuComponent],
   templateUrl: './manage-client.component.html',
   styleUrl: './manage-client.component.scss',
 })

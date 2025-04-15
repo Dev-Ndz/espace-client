@@ -3,39 +3,37 @@ import { QuestionnaireService } from '../../../../../services/questionnaire.serv
 import { ClientService } from '../../../../../services/client.service';
 import { ButtonModule } from 'primeng/button';
 import { Mode } from '../../../../../models/mode.enum';
-import { CreateQuestionnaireComponent } from "../../../../questionnaire/create-questionnaire/create-questionnaire.component";
+import { ViewQuestionnaireComponent } from '../../../../../components/questionnaire/view-questionnaire/view-questionnaire.component';
+import { CreateQuestionnaireComponent } from '../../../../../components/questionnaire/create-questionnaire/create-questionnaire.component';
 
 @Component({
   selector: 'app-manage-questionnaire',
-  imports: [ButtonModule, CreateQuestionnaireComponent],
+  imports: [
+    ViewQuestionnaireComponent,
+    CreateQuestionnaireComponent,
+    ButtonModule,
+  ],
   templateUrl: './manage-questionnaire.component.html',
   styleUrl: './manage-questionnaire.component.scss',
 })
 export class ManageQuestionnaireComponent {
   questionnaireService = inject(QuestionnaireService);
-  clientService = inject(ClientService);
-  mode: Mode = Mode.VIEW;
+  private clientService = inject(ClientService);
+
   constructor() {
     effect(() => {
-      if (this.questionnaireService.questionnaire() === undefined)
-        this.mode = Mode.EMPTY;
+      const clientId = this.clientService.client()?.id;
+      if (clientId) {
+        this.questionnaireService.loadQuestionnaire(clientId);
+      }
     });
   }
-  ngOnInit() {
-    this.questionnaireService.loadQuestionnaire(
-      this.clientService.client()?.id
-    );
-  }
-  get emptyMode(): boolean {
-    return this.mode === Mode.EMPTY;
-  }
-  get createMode(): boolean {
-    return this.mode === Mode.CREATE;
-  }
-  get viewMode(): boolean {
-    return this.mode === Mode.VIEW;
-  }
+
   createQuestionnaire() {
-    this.mode = Mode.CREATE;
+    this.questionnaireService.mode.set(Mode.CREATE);
+  }
+
+  switchMode(mode: Mode) {
+    this.questionnaireService.mode.set(mode);
   }
 }
