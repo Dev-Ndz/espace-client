@@ -13,11 +13,9 @@ export const adminGuard: CanActivateFn =
     return authService.isAdmin().pipe(
       map((isAdmin) => {
         if (!isAdmin) {
-          console.log('user is not an admin, redirect to user/home');
           router.navigate(['user/home']);
           return false;
         }
-        console.log('user is admin');
         return true;
       })
     );

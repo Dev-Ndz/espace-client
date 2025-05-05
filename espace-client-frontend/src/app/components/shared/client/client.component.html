@@ -1,18 +1,13 @@
 <section class="flex flex-row items-center gap-4 mb-4">
-  <h2 class="font-mono text-2xl tracking-wider uppercase">
-    {{
-      modeService.mode() === "new"
-        ? "Nouveau Client"
-        : modeService.mode() === "edit"
-        ? "Editer"
-        : client?.name
-    }}
-  </h2>
-  @if(modeService.mode() !== 'new'){
+  @if(modeService.mode() === 'new'){
+  <h2 class="font-mono text-2xl tracking-wider uppercase">Nouveau Client</h2>
+  }@else{
   <p-button
+    class="font-mono uppercase"
+    [label]="modeService.mode() === 'edit' ? 'Retour' : 'Editer'"
     [icon]="modeService.mode() === 'view' ? 'pi pi-pencil' : 'pi pi-arrow-left'"
-    [rounded]="true"
-    [text]="true"
+    iconPos="right"
+    [outlined]="true"
     (click)="this.modeService.switchMode()"
   />
   }

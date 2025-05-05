@@ -7,10 +7,12 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseGuards,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
-import { Prisma } from '@prisma/client';
+import { Prisma} from '@prisma/client';
+import { Roles } from 'src/auth/roles.decorator';
+import { Role } from 'src/auth/role.enum';
+
 
 @Controller('client')
 export class ClientController {
@@ -22,6 +24,7 @@ export class ClientController {
   }
 
   @Get()
+  @Roles(Role.ADMIN)
   getAllClients() {
     return this.clientService.findAll({});
   }

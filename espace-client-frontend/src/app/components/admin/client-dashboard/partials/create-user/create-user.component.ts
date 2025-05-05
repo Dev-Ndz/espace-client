@@ -41,7 +41,6 @@ export class CreateUserComponent {
     this.clientService.addUser(clientId).subscribe({
       next: (response) => {
         this.link = response.url;
-        console.log('add client', response);
         this.loadingService.loading.set(false);
       },
       error: (err) => {

@@ -8,9 +8,11 @@ import { InvitationModule } from './invitation/invitation.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guard';
 import { RolesGuard } from './auth/role.guard';
+import { QuestionnaireModule } from './questionnaire/questionnaire.module';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
-  imports: [ClientModule, AuthModule, UserModule, InvitationModule],
+  imports: [ClientModule, AuthModule, UserModule, InvitationModule, QuestionnaireModule, CaslModule],
   controllers: [AppController],
   providers: [
     AppService,

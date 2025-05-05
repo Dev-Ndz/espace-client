@@ -1,0 +1,18 @@
+@if(questionnaireService.mode() === 'empty'){
+<div class="flex flex-col items-center justify-center mt-20">
+  <p class="p-8 text-lg tracking-wide">
+    Pas de questionnaire associé à ce compte
+  </p>
+  <p-button
+    label="Créer un questionnaire"
+    icon="pi pi-pencil"
+    class="font-mono uppercase"
+    iconPos="right"
+    (onClick)="createQuestionnaire()"
+  />
+</div>
+} @else if(questionnaireService.mode() === 'edit'){
+<app-create-questionnaire (modeEmitter)="switchMode($event)" />
+} @else if(questionnaireService.mode()   === 'view'){
+<app-view-questionnaire (modeEmitter)="switchMode($event)" />
+}

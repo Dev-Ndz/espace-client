@@ -1,20 +1,32 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Client } from '../models/client';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { ClientFormModeService } from './client-form-mode.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientService {
   http = inject(HttpClient);
+  modeService = inject(ClientFormModeService);
   clients = signal<Client[]>([]);
   client = signal<Client | undefined>(undefined);
 
   CLIENT_API_URL = environment.apiUrl + '/client';
   API_URL = environment.apiUrl;
 
+  constructor() {
+    effect(() => {
+      if (this.modeService.mode() === 'new') {
+        this.resetClient();
+      }
+    });
+  }
+  resetClient() {
+    this.client.set(undefined);
+  }
   getConnectedClient(): void {
     this.http
       .get<Client>(environment.apiUrl + '/auth/me')
@@ -38,14 +50,17 @@ export class ClientService {
   getAllClients() {
     this.http.get<Client[]>(this.CLIENT_API_URL).subscribe({
       next: (clients) => {
+        console.log(clients);
         this.clients.set(clients);
       },
       error: (err) => console.error(err),
     });
   }
+
   createClient(client: Client): Observable<Client> {
     return this.http.post<Client>(this.CLIENT_API_URL, client);
   }
+
   updateClient(client: Client, id: string): Observable<Client> {
     return this.http.patch<Client>(
       environment.apiUrl + '/client/' + id,

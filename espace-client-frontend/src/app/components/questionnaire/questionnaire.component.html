@@ -1,0 +1,32 @@
+<form
+  [formGroup]="questionnaireFormService.questionnaireForm"
+  class="flex flex-col"
+>
+  <section class="flex flex-col">
+    @for(section of questionnaireFormService.sectionsControls; track $index){
+    <app-questionnaire-section [index]="$index" [section]="section" />}
+    @if(questionnaireModeService.createMode || questionnaireModeService.editMode
+    ){<p-button
+      label="ajouter une section"
+      (onClick)="questionnaireFormService.addSection()"
+      text="true"
+      class="font-mono uppercase justify-end ml-2"
+    />}
+  </section>
+  @if(!questionnaireModeService.viewMode){
+  <div class="flex flex-row mt-4 gap-4">
+    <p-button
+      label="enregistrer"
+      (onClick)="submit()"
+      class="font-mono uppercase justify-end"
+    />
+    <p-button
+      label="annuler"
+      (onClick)="this.questionnaireModeService.setViewMode()"
+      class="font-mono uppercase justify-end"
+      [outlined]="true"
+    />
+  </div>
+
+  }
+</form>

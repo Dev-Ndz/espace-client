@@ -4,7 +4,6 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class ClientFormModeService {
-  // constructor() {}
   mode = signal<'new' | 'edit' | 'view'>('view');
 
   switchMode() {

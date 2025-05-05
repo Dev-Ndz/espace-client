@@ -14,21 +14,22 @@ datasource db {
 }
 
 model Client {
-  id          String    @id @default(uuid()) @db.Uuid
-  name        String 
-  description String?  
-  logo        String?  
-  cover       String?  
-  address     String?  
-  TVA         Boolean? 
-  TVANumber   String?     
-  email       String?  
-  phone       String?  
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime?
-  users       User[]
-
-  Invitation Invitation[]
+  id            String    @id @default(uuid()) @db.Uuid
+  name          String 
+  description   String?  
+  logo          String?  
+  cover         String?  
+  address       String?  
+  TVA           Boolean? 
+  TVANumber     String?     
+  email         String?  
+  phone         String?  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime?
+  users         User[]
+  Invitation    Invitation[]
+  Project       Project[]
+  Questionnaire Questionnaire[]
 }
 
 enum Role {
@@ -51,4 +52,34 @@ model Invitation {
   isAccountCreated  Boolean  @default(false)
   createdAt         DateTime @default(now())
   client            Client   @relation(fields: [clientId], references: [id])
+}
+model Project {
+  id            String   @id @default(uuid()) @db.Uuid
+  clientId      String  @db.Uuid
+  client        Client  @relation(fields: [clientId], references: [id])
+}
+
+model Questionnaire {
+  id            String    @id @default(uuid()) @db.Uuid
+  title         String?
+  clientId      String?   @db.Uuid
+  client        Client?   @relation(fields: [clientId], references: [id])
+  createdAt     DateTime  @default(now())
+  isTemplate    Boolean   @default(false)
+  sections      Section[]
+}
+model Section{
+  id                String  @id @default(uuid()) @db.Uuid
+  title             String?
+  questionnaireId   String @db.Uuid
+  questionnaire     Questionnaire @relation(fields: [questionnaireId], references: [id], onDelete: Cascade)
+  questions         Question[]
+}
+
+model Question {
+  id                String @id @default(uuid()) @db.Uuid
+  question          String?
+  answer            String?
+  sectionId         String @db.Uuid
+  section           Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 }

@@ -4,14 +4,20 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { ClientFormModeService } from '../../../../../services/client-form-mode.service';
+import { signal } from '@angular/core';
 
 describe('CreateClientButtonComponent', () => {
   let component: CreateClientButtonComponent;
   let fixture: ComponentFixture<CreateClientButtonComponent>;
   let routerSpy: jasmine.SpyObj<Router>;
+  let modeServiceMock: jasmine.SpyObj<ClientFormModeService>;
 
   beforeEach(async () => {
     // Créer un espion pour le Router
+    modeServiceMock = jasmine.createSpyObj('ClientFormModeService', ['set'], {
+      mode: signal('new'),
+    });
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
@@ -37,6 +43,7 @@ describe('CreateClientButtonComponent', () => {
     button.triggerEventHandler('click', null);
 
     // Vérifier que navigate a été appelé avec les bons paramètres
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['admin/client', 'new']);
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['admin/client']);
+    expect(modeServiceMock.mode()).toBe('new');
   });
 });
