@@ -58,9 +58,22 @@ export class QuestionnaireService {
   }
 
   async findOne(id: string) {
-    return await this.prisma.questionnaire.findUnique({
+    const questionnaire = await this.prisma.questionnaire.findUnique({
       where: { id },
+      include: {
+        sections: {
+          include: {
+            questions: true,
+          },
+        },
+      },
     });
+
+    if (!questionnaire) {
+      throw new NotFoundException('Questionnaire not found');
+    }
+
+    return questionnaire;
   }
 
   async update(id: string, dto: CreateQuestionnaireDto) {

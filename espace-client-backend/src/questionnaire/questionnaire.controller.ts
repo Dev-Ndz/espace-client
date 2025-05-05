@@ -6,16 +6,15 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   Req,
+  ForbiddenException,
 } from '@nestjs/common';
 import { QuestionnaireService } from './questionnaire.service';
-import { UpdateQuestionnaireDto } from './dto/update-questionnaire.dto';
-import { Prisma } from '@prisma/client';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/role.enum';
-import { RequestWithUser } from 'src/common/types/request-with-user';
 import { CreateQuestionnaireDto } from './dto/create-questionnaire.dto';
+import { CurrentUser } from 'src/auth/user.decorators';
+import { User } from 'src/auth/entities/user.entity';
 
 @Controller('questionnaire')
 export class QuestionnaireController {
@@ -24,26 +23,27 @@ export class QuestionnaireController {
   @Post()
   @Roles(Role.ADMIN)
   create(@Body() dto: CreateQuestionnaireDto) {
-    console.log('✅ create triggered → body:', dto);
     return this.questionnaireService.create(dto);
   }
 
   @Get()
-  async findAll(@Req() req: RequestWithUser) {
-    return req.user.role === Role.ADMIN
+  async findAll(@CurrentUser() user: User) {
+    return user.role === Role.ADMIN
       ? await this.questionnaireService.findAll({})
       : await this.questionnaireService.findAll({
-          where: { clientId: req.user.clientId },
+          where: { clientId: user.clientId },
         });
   }
 
   @Get('user/:clientId')
-  @Roles(Role.ADMIN)
-  async findByUser(@Param('clientId') clientId: string) {
-    console.log('✅ user/:clientId triggered → params:', clientId);
-    return this.questionnaireService.findAll({
-      where: { clientId: clientId },
-    });
+  async findByUser(
+    @Param('clientId') clientId: string,
+    @CurrentUser() user: User,
+  ) {
+    if (user.clientId !== clientId && user.role !== Role.ADMIN) {
+      throw new ForbiddenException();
+    }
+    return this.questionnaireService.findAll({ where: { clientId } });
   }
 
   @Get(':id')
@@ -52,12 +52,16 @@ export class QuestionnaireController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() createQuestionnaireDto: CreateQuestionnaireDto,
+    @CurrentUser() user: User,
   ) {
-    console.log('✅ update triggered → params:', id);
-    console.log('✅ update triggered → body:', createQuestionnaireDto);   
+    const questionnaire = await this.questionnaireService.findOne(id);
+
+    if (questionnaire.clientId !== user.clientId && user.role !== Role.ADMIN) {
+      throw new ForbiddenException();
+    }
     return this.questionnaireService.update(id, createQuestionnaireDto);
   }
 

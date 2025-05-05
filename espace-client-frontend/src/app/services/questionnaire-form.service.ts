@@ -97,11 +97,9 @@ export class QuestionnaireFormService {
     this.questionnaireForm.reset();
   }
   load(data: Questionnaire) {
-    console.log('initializing', data);
     this.resetForm();
     data.sections?.forEach((section) => {
       this.sections.push(this.createSection(section));
     });
-    console.log(this.questionnaireForm.value);
   }
 }

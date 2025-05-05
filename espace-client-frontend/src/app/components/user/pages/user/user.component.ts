@@ -23,6 +23,5 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.clientService.getConnectedClient();
-    this.clientService.getAllClients();
   }
 }

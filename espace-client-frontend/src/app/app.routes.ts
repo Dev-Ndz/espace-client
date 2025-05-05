@@ -13,7 +13,8 @@ import { adminGuard } from './guards/admin.guard';
 import { ManageClientComponent } from './components/admin/manage-client/manage-client.component';
 import { QuestionnaireComponent } from './components/questionnaire/questionnaire.component';
 import { ClientComponent } from './components/shared/client/client.component';
-import { ManageQuestionnaireComponent } from './components/admin/manage-client/partials/manage-questionnaire/manage-questionnaire.component';
+import { AdminQuestionnaireComponent } from './components/questionnaire/admin-questionnaire/admin-questionnaire.component';
+import { UserQuestionnaireComponent } from './components/questionnaire/user-questionnaire/user-questionnaire.component';
 
 export const routes: Routes = [
   {
@@ -25,7 +26,7 @@ export const routes: Routes = [
       { path: 'documents', component: DocumentsComponent },
       { path: 'data', component: UserInfoComponent },
       { path: 'moodboard', component: MoodboardComponent },
-      { path: 'questionnaire', component: QuestionnaireComponent },
+      { path: 'questionnaire', component: UserQuestionnaireComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirection vers "home"
     ],
   },
@@ -50,7 +51,7 @@ export const routes: Routes = [
           { path: 'info', component: ClientComponent },
           {
             path: 'questionnaire',
-            component: ManageQuestionnaireComponent,
+            component: AdminQuestionnaireComponent,
           },
         ],
       },

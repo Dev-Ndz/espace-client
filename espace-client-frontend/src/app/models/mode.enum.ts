@@ -3,4 +3,5 @@ export enum Mode {
   VIEW = 'view',
   CREATE = 'create',
   EDIT = 'edit',
+  ANSWER = 'answer',
 }
