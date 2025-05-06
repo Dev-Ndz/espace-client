@@ -1,19 +1,19 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { ClientService } from '../../../services/client.service';
-import { ClientFormModeService } from '../../../services/client-form-mode.service';
 import { ManageClientMenuComponent } from './partials/manage-client-menu/manage-client-menu.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-manage-client',
-  imports: [RouterOutlet, ManageClientMenuComponent],
+  imports: [RouterOutlet, ManageClientMenuComponent, ButtonModule],
   templateUrl: './manage-client.component.html',
   styleUrl: './manage-client.component.scss',
 })
 export class ManageClientComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private clientService = inject(ClientService);
-  private modeService = inject(ClientFormModeService);
+  private router = inject(Router);
   name = '';
   constructor() {
     effect(() => {
@@ -25,5 +25,8 @@ export class ManageClientComponent implements OnInit {
     if (clientId) {
       this.clientService.getClientById(clientId);
     }
+  }
+  navigateToDashboard() {
+    this.router.navigate(['admin / client - dashboard']);
   }
 }

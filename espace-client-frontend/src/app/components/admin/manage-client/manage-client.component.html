@@ -1,5 +1,14 @@
-<h2 class="font-mono text-2xl tracking-wider uppercase">
+<p-button
+  class="font-mono uppercase"
+  label="Retour au dashboard client"
+  icon="pi pi-arrow-left"
+  iconPos="right"
+  [outlined]="true"
+  (click)="navigateToDashboard()"
+/>
+<h2 class="font-mono text-2xl tracking-wider uppercase mt-8">
   {{ name }}
 </h2>
-<app-manage-client-menu/>
+
+<app-manage-client-menu />
 <router-outlet />
