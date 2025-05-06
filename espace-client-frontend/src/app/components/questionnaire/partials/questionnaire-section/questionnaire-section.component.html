@@ -1,0 +1,93 @@
+<form
+  [formGroup]="section"
+  class="p-2 m-4 border border-text-color-transparent"
+>
+  <div class="flex flex-row">
+    @if(editable){
+    <div class="flex flex-col">
+      <p-button
+        icon="pi pi-arrow-up"
+        [text]="true"
+        [rounded]="true"
+        size="small"
+        (onClick)="moveSectionUp()"
+      /><p-button
+        icon="pi pi-arrow-down"
+        [text]="true"
+        [rounded]="true"
+        size="small"
+        (onClick)="moveSectionDown()"
+      />
+    </div>
+    }
+    <div
+      class="flex flex-row items-center flex-grow gap-4 p-4 pb-2"
+      [ngClass]="{ 'border-text-color border-b': !editMode }"
+    >
+      <div class="flex flex-row items-center flex-grow">
+        @if(editMode){
+        <div class="flex flex-col justify-between flex-grow">
+          <label
+            class="font-mono text-xs uppercase"
+            [for]="'sectiontitle' + index"
+            >titre de section</label
+          >
+          <input
+            [id]="'sectiontitle' + index"
+            type="text"
+            pInputText
+            formControlName="title"
+            placeholder="Titre de section"
+          />
+        </div>
+        }@else {
+        <div class="font-mono">
+          {{ section.get("title")?.value }}
+        </div>
+        } @if(editable){
+        <p-button
+          [icon]="editMode ? 'pi pi-check' : 'pi pi-pencil'"
+          [rounded]="true"
+          [text]="true"
+          size="small"
+          (onClick)="switchMode()"
+        />
+        }
+      </div>
+
+      <p-button
+        [icon]="showSection ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+        [rounded]="true"
+        [text]="true"
+        (onClick)="switchView()"
+      />
+    </div>
+    @if(editable){
+    <p-button
+      icon="pi pi-times"
+      [rounded]="true"
+      [text]="true"
+        (onClick)="questionnaireFormService.removeSection(index)"
+      />
+    }
+  </div>
+  <div [ngClass]="{ hidden: !showSection }">
+    @for(question of questionnaireFormService.getQuestions(index); track
+    $index){
+    <app-questionnaire-question
+      [questionForm]="question"
+      [questionIndex]="$index"
+      [sectionIndex]="index"
+      [editable]="editable"
+    />
+
+    }
+    @if(editable){
+    <p-button
+      label="ajouter une question"
+      (onClick)="questionnaireFormService.addQuestionToSection(index)"
+        text="true"
+      />
+    }
+  </div>
+</form>
