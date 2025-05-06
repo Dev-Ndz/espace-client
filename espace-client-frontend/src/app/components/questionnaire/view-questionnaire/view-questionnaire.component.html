@@ -1,0 +1,21 @@
+<p-button
+  label="Modifier le questionnaire"
+  [outlined]="true"
+  icon="pi pi-pencil"
+  iconPos="right"
+  (onClick)="switchMode()"
+/>
+<form
+  [formGroup]="questionnaireFormService.questionnaireForm"
+  class="flex flex-col"
+>
+  <section class="flex flex-col">
+    @for(section of questionnaireFormService.sectionsControls; track $index){
+    <app-questionnaire-section
+      [index]="$index"
+      [section]="section"
+      [editable]="editable"
+    />}
+  </section>
+  <div class="flex flex-row"></div>
+</form>

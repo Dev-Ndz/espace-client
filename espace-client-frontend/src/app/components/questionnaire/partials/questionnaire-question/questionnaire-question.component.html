@@ -1,0 +1,74 @@
+<form [formGroup]="questionForm" class="p-4">
+  <div class="flex flex-row items-center">
+    @if(editable){
+    <div class="flex flex-col">
+      <p-button
+        icon="pi pi-arrow-up"
+        [text]="true"
+        [rounded]="true"
+        size="small"
+        (onClick)="moveQuestionUp()"
+      /><p-button
+        icon="pi pi-arrow-down"
+        [text]="true"
+        [rounded]="true"
+        size="small"
+        (onClick)="moveQuestionDown()"
+      />
+    </div>
+    } @if(editQuestionMode){
+    <div class="flex flex-col justify-between py-2 flex-grow">
+      <label
+        class="font-mono text-xs uppercase"
+        [for]="'question' + sectionIndex + questionIndex"
+        >question</label
+      >
+      <input
+        [id]="'question' + sectionIndex + questionIndex"
+        type="text"
+        pInputText
+        formControlName="question"
+        placeholder="Question"
+      />
+    </div>
+    }@else if(!editAnswerMode){
+    <div class="font-mono uppercase">
+      {{ questionForm.get("question")?.value }}
+    </div>
+    } @if(editable){
+    <p-button
+      [icon]="editQuestionMode ? 'pi pi-check' : 'pi pi-pencil'"
+      [rounded]="true"
+      [text]="true"
+      size="small"
+      (onClick)="switchQuestionMode()"
+    />
+
+    <p-button
+      icon="pi pi-times"
+      [rounded]="true"
+      [text]="true"
+      size="small"
+      (onClick)="
+        questionnaireFormService.removeQuestion(sectionIndex, questionIndex)
+      "
+    />
+    }
+  </div>
+
+  <div class="flex flex-col justify-between py-2">
+    @if(editAnswerMode){
+    <label
+      class="font-mono text-sm uppercase"
+      [for]="'answer' + sectionIndex + questionIndex"
+      >{{ questionForm.get("question")?.value }}</label
+    >
+    <p-editor
+      formControlName="answer"
+      [id]="'answer' + sectionIndex + questionIndex"
+    />
+    }@else {
+    <div [innerHTML]="questionForm.get('answer')?.value"></div>
+    }
+  </div>
+</form>

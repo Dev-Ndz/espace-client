@@ -1,0 +1,24 @@
+@if(questionnaireModeService.emptyMode){
+<div class="flex flex-col items-center justify-center mt-20">
+  <p class="p-8 text-lg tracking-wide">
+    Pas de questionnaire associé à ce compte
+  </p>
+  <p-button
+    label="Créer un questionnaire"
+    icon="pi pi-pencil"
+    class="font-mono uppercase"
+    iconPos="right"
+    (onClick)="createQuestionnaire()"
+  />
+</div>
+} @else {
+  @if(questionnaireModeService.viewMode){
+<p-button
+  label="modifier"
+  (onClick)="editMode()"
+  text="true"
+  class="font-mono uppercase justify-end"
+/>
+}
+<app-questionnaire />
+}
