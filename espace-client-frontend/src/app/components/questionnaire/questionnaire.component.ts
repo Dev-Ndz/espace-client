@@ -1,10 +1,9 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject} from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuestionnaireService } from '../../services/questionnaire.service';
 import { ClientService } from '../../services/client.service';
 import { QuestionnaireFormService } from '../../services/questionnaire-form.service';
-import { Mode } from '../../models/mode.enum';
 import { QuestionnaireSectionComponent } from './partials/questionnaire-section/questionnaire-section.component';
 import { CommonModule } from '@angular/common';
 import { MessageService } from 'primeng/api';
