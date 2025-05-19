@@ -12,5 +12,6 @@ export class ManageClientMenuComponent {
   menuItems: MenuItem[] = [
     { label: 'données', routerLink: 'info' },
     { label: 'questionnaire', routerLink: 'questionnaire' },
+    { label: 'utilisateurs', routerLink: 'users'}
   ];
 }

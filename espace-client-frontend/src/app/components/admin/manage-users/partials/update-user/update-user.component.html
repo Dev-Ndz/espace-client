@@ -1,0 +1,31 @@
+<p-button
+  label="modifier"
+  icon="pi pi-pencil"
+  (click)="showDialog()"
+  [text]="true"
+/>
+<p-dialog
+  header="Edit Profile"
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '25rem' }"
+>
+  <span class="p-text-secondary block mb-8"
+    >Modifier les informations de l'utilisateur</span
+  >
+  <div class="flex items-center gap-4 mb-8">
+    <label for="email" class="font-semibold w-24">Email</label>
+    <input
+      pInputText
+      id="email"
+      class="flex-auto"
+      autocomplete="off"
+      [(ngModel)]="this.email"
+    />
+  </div>
+  <div class="flex justify-end gap-2">
+    <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+    <p-button label="Save" (click)="update()" />
+  </div>
+</p-dialog>
+<p-toast />
