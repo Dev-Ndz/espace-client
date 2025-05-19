@@ -15,6 +15,7 @@ import { QuestionnaireComponent } from './components/questionnaire/questionnaire
 import { ClientComponent } from './components/shared/client/client.component';
 import { AdminQuestionnaireComponent } from './components/questionnaire/admin-questionnaire/admin-questionnaire.component';
 import { UserQuestionnaireComponent } from './components/questionnaire/user-questionnaire/user-questionnaire.component';
+import { ManageUsersComponent } from './components/admin/manage-users/manage-users.component';
 
 export const routes: Routes = [
   {
@@ -53,6 +54,7 @@ export const routes: Routes = [
             path: 'questionnaire',
             component: AdminQuestionnaireComponent,
           },
+          { path: 'users', component: ManageUsersComponent },
         ],
       },
     ],
