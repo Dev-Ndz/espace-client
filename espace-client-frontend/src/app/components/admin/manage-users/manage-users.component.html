@@ -1,0 +1,16 @@
+<section>
+  @for(user of userList; track $index){
+  <div class="flex flex-row items-center justify-between py-2 max-w-xl">
+    <div class="flex-1">
+      {{ user.email }}
+    </div>
+    <div class="flex flex-row flex-0 gap-4">
+      <app-update-user [user]="this.userList[$index]" />
+      <app-delete-user
+        [user]="this.userList[$index]"
+        (userDeleted)="removeUserFromUserList($event)"
+      />
+    </div>
+  </div>
+  }
+</section>

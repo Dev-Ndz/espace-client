@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { LoadingService } from '../../../services/loading.service';
-import { LoadingComponent } from "../../shared/loading/loading.component";
+import { LoadingComponent } from '../../shared/loading/loading.component';
 
 @Component({
   selector: 'app-admin-page',
