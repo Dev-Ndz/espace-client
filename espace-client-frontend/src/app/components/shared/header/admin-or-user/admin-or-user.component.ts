@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../../../services/auth.service';
-// import { TagModule } from 'primeng/tag';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-admin-or-user',
-  imports: [],
+  imports: [TagModule],
   templateUrl: './admin-or-user.component.html',
   styleUrl: './admin-or-user.component.scss',
 })
