@@ -1,0 +1,23 @@
+<p-button
+  label="suprimer"
+  icon="pi pi-trash"
+  (click)="showDialog()"
+  [text]="true"
+/>
+<p-dialog
+  header="Supprimer l'utilisateur"
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '25rem' }"
+>
+  <div class="flex flex-col gap-4 mb-4">
+    <p>Vous êtes sur le point de supprimer l'utilisateur :</p>
+    <span class="font-mono uppercase self-center">{{ this.user.email }}</span>
+    <p>Êtes-vous sûr de vouloir continuer ?</p>
+  </div>
+  <div class="flex justify-end gap-2">
+    <p-button label="Annuler" severity="secondary" (click)="visible = false" />
+    <p-button label="Supprimer" (click)="delete()" />
+  </div>
+</p-dialog>
+<p-toast />
