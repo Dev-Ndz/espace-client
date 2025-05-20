@@ -42,8 +42,8 @@ model User {
   email       String  @unique
   password    String
   role        Role    @default(USER)
-  clientId    String  @db.Uuid
-  client      Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId    String?  @db.Uuid
+  client      Client?  @relation(fields: [clientId], references: [id], onDelete: Cascade)
 }
 
 model Invitation {
