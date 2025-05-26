@@ -8,6 +8,7 @@ import { ClientFormComponent } from './partials/client-form/client-form.componen
 import { ClientViewComponent } from './partials/client-view/client-view.component';
 import { ButtonModule } from 'primeng/button';
 import { ClientFormModeService } from '../../../services/client-form-mode.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-client',
@@ -17,6 +18,7 @@ import { ClientFormModeService } from '../../../services/client-form-mode.servic
     ClientFormComponent,
     ClientViewComponent,
     ButtonModule,
+    CommonModule,
   ],
   templateUrl: './client.component.html',
   styleUrl: './client.component.scss',
@@ -97,7 +99,9 @@ export class ClientComponent implements OnInit {
       },
     });
   }
-
+  navigateToClientDashboard() {
+    this.router.navigate(['admin/client-dashboard']);
+  }
   onSubmit(client: Client) {
     if (this.modeService.mode() === 'new') {
       this.createClient(client);
