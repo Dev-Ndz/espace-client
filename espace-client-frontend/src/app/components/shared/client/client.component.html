@@ -1,20 +1,38 @@
-<section class="flex flex-row items-center gap-4 mb-4">
-  @if(modeService.mode() === 'new'){
-  <h2 class="font-mono text-2xl tracking-wider uppercase">Nouveau Client</h2>
-  }@else{
-  <p-button
-    class="font-mono uppercase"
-    [label]="modeService.mode() === 'edit' ? 'Retour' : 'Editer'"
-    [icon]="modeService.mode() === 'view' ? 'pi pi-pencil' : 'pi pi-arrow-left'"
-    iconPos="right"
-    [outlined]="true"
-    (click)="this.modeService.switchMode()"
-  />
+<div
+  [ngClass]="
+    modeService.mode() === 'new'
+      ? 'flex flex-col items-center justify-center w-full'
+      : ''
+  "
+>
+  <section class="flex flex-row items-center gap-4 mb-4">
+    @if(modeService.mode() === 'new'){
+    <h2 class="font-mono text-2xl tracking-wider uppercase">Nouveau Client</h2>
+    <p-button
+      (onClick)="navigateToClientDashboard()"
+      [outlined]="true"
+      [label]="'Retour'"
+      [icon]="'pi pi-arrow-left'"
+      iconPos="right"
+      class="font-mono uppercase"
+    />
+    }@else{
+    <p-button
+      class="font-mono uppercase"
+      [label]="modeService.mode() === 'edit' ? 'Retour' : 'Editer'"
+      [icon]="
+        modeService.mode() === 'view' ? 'pi pi-pencil' : 'pi pi-arrow-left'
+      "
+      iconPos="right"
+      [outlined]="true"
+      (click)="this.modeService.switchMode()"
+    />
+    }
+  </section>
+  <p-toast />
+  @if(modeService.mode() === "view"){
+  <app-client-view [client]="client" />
+  }@else {
+  <app-client-form [client]="client" (clientFormEmiter)="onSubmit($event)" />
   }
-</section>
-<p-toast />
-@if(modeService.mode() === "view"){
-<app-client-view [client]="client" />
-}@else {
-<app-client-form [client]="client" (clientFormEmiter)="onSubmit($event)" />
-}
+</div>

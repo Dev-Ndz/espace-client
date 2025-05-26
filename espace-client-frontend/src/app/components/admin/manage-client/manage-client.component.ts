@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { ClientService } from '../../../services/client.service';
 import { ManageClientMenuComponent } from './partials/manage-client-menu/manage-client-menu.component';
 import { ButtonModule } from 'primeng/button';
+import { Client } from '../../../models/client';
 
 @Component({
   selector: 'app-manage-client',
@@ -14,10 +15,10 @@ export class ManageClientComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private clientService = inject(ClientService);
   private router = inject(Router);
-  name = '';
+  client?: Client;
   constructor() {
     effect(() => {
-      this.name = this.clientService.client()?.name || '';
+      this.client = this.clientService.client();
     });
   }
   ngOnInit(): void {
