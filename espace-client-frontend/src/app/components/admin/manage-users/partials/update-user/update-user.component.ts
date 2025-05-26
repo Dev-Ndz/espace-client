@@ -10,7 +10,13 @@ import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-update-user',
-  imports: [ButtonModule, DialogModule, InputTextModule, FormsModule, ToastModule],
+  imports: [
+    ButtonModule,
+    DialogModule,
+    InputTextModule,
+    FormsModule,
+    ToastModule,
+  ],
   providers: [MessageService],
   templateUrl: './update-user.component.html',
   styleUrl: './update-user.component.scss',

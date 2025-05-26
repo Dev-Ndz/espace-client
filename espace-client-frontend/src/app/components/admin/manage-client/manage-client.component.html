@@ -1,14 +1,25 @@
-<p-button
-  class="font-mono uppercase"
-  label="Retour au dashboard client"
-  icon="pi pi-arrow-left"
-  iconPos="right"
-  [outlined]="true"
-  (click)="navigateToDashboard()"
-/>
-<h2 class="font-mono text-2xl tracking-wider uppercase mt-8">
-  {{ name }}
-</h2>
-
-<app-manage-client-menu />
-<router-outlet />
+<section class="flex flex-row">
+  <aside class="flex flex-col">
+    @if(client?.logo){
+    <img
+      [src]="client?.logo"
+      alt="logo"
+      class="w-60 aspect-[4/5] object-cover py-4"
+    />}
+    <h2 class="font-mono text-2xl tracking-wider uppercase pl-4">
+      {{ client?.name }}
+    </h2>
+    <p-button
+      class="font-mono uppercase ml-4"
+      label="Retour"
+      icon="pi pi-arrow-left"
+      iconPos="right"
+      [outlined]="true"
+      (click)="navigateToDashboard()"
+    />
+    <app-manage-client-menu />
+  </aside>
+  <main class="flex px-4">
+    <router-outlet />
+  </main>
+</section>
