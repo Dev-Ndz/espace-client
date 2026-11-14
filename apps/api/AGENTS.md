@@ -22,3 +22,8 @@ Validation works with Zod, Valibot, ArkType or any other Standard Schema library
 `NodeAdapter` from `@nestjs/platform-node` is the fastest HTTP adapter, ahead of Fastify (https://docs.nestjs.com/http/performance.md).
 
 Nest's packages are ESM only, and this project is ESM too: relative imports end in `.js`, `__dirname` doesn't exist (use `import.meta.dirname`), and tests run on Vitest, so mocks are `vi.fn()`, not `jest.fn()`.
+
+## Imports et injection de dépendances
+
+- Un provider injecté par le constructeur (`constructor(private readonly x: MonService)`) doit être importé **en valeur** (`import { MonService }`), jamais en `import type` : Nest lit son type à l'exécution via les métadonnées de décorateurs, et un `import type` fait échouer l'injection (« Nest can't resolve dependencies »).
+- À l'inverse, `@espace-client/shared` s'importe **uniquement en `import type`** à ce stade. La règle `no-restricted-imports` de `.oxlintrc.json` le vérifie.

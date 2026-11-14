@@ -47,6 +47,11 @@ describe('HealthStatus', () => {
     expect(await text()).toBe('API injoignable');
   });
 
+  it('affiche une erreur sur une réponse 200 vide', async () => {
+    http.expectOne('/api/health').flush(null);
+    expect(await text()).toBe('API injoignable');
+  });
+
   it('affiche une erreur sur une réponse 404', async () => {
     http.expectOne('/api/health').flush('Not Found', { status: 404, statusText: 'Not Found' });
     expect(await text()).toBe('API injoignable');

@@ -3,7 +3,18 @@
   "rules": {
     "typescript/no-explicit-any": "off",
     "typescript/no-floating-promises": "error",
-    "typescript/consistent-type-imports": "error"
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "@espace-client/shared",
+            "allowTypeImports": true,
+            "message": "À ce stade, le package partagé s'importe uniquement en `import type`."
+          }
+        ]
+      }
+    ]
   },
   "env": {
     "node": true

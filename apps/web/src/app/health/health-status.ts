@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import type { HealthResponse } from '@espace-client/shared';
 import { HealthClient } from './health-client';
 
 type HealthState = 'loading' | 'ok' | 'error';
@@ -21,7 +22,8 @@ export class HealthStatus {
     inject(HealthClient)
       .getHealth()
       .subscribe({
-        next: (res) => this.state.set(res.status === 'ok' ? 'ok' : 'error'),
+        // Le corps peut être vide (null) si un proxy répond 200 sans contenu.
+        next: (res: HealthResponse | null) => this.state.set(res?.status === 'ok' ? 'ok' : 'error'),
         error: () => this.state.set('error'),
       });
   }

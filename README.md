@@ -51,4 +51,5 @@ docs/         Notes de conception et plans
 ## Règles
 
 - Les types de l'API (réponses, DTO) sont définis dans `packages/shared`. Si un contrat change, le front et l'API cassent tous les deux à la compilation.
-- À ce stade, le package partagé s'importe **uniquement en `import type`**. Le lint le vérifie avec la règle `consistent-type-imports`.
+- À ce stade, le package partagé s'importe **uniquement en `import type`**. Le lint le vérifie : `no-restricted-imports` côté API (oxlint), `consistent-type-imports` côté front (ESLint).
+- Côté API, un service injecté par le constructeur s'importe en valeur, jamais en `import type` (voir `apps/api/AGENTS.md`).
