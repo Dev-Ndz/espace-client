@@ -11,7 +11,9 @@ describe('HealthStatus', () => {
   async function text(): Promise<string> {
     fixture.detectChanges();
     await fixture.whenStable();
-    const el = (fixture.nativeElement as HTMLElement).querySelector('[data-testid="health-status"]');
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      '[data-testid="health-status"]',
+    );
     return el?.textContent?.trim() ?? '';
   }
 

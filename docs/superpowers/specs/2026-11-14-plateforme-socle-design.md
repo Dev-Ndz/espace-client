@@ -70,20 +70,20 @@ Il n'y a **qu'une seule photographe**. Ce n'est pas un SaaS multi-photographes, 
 
 ## 5. Approches envisagées
 
-| Approche | Résumé | Arbitrage |
-|---|---|---|
-| **A. Angular + NestJS** ✅ retenue | Monorepo, API NestJS, front Angular, types partagés | NestJS reprend la logique d'Angular (modules, injection de dépendances, décorateurs). Sa structure imposée garde le code cohérent quand il est écrit par des agents. Plus de code « cadre » qu'un serveur minimaliste. |
-| B. Angular + Express ou Hono | API minimaliste | Contrôle total, peu de code, mais structure à inventer. C'est là que le code agentique dérive le plus sur un projet qui grossit. |
-| C. Angular + Supabase | Pas de back-end, BaaS | Le plus rapide, mais la logique métier part dans des règles SQL, ce n'est plus une architecture client-serveur, le stockage gratuit ne suffit pas pour des photos, et le projet se met en pause après une semaine d'inactivité. Contraire aux objectifs du porteur. |
+| Approche                           | Résumé                                              | Arbitrage                                                                                                                                                                                                                                                           |
+| ---------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **A. Angular + NestJS** ✅ retenue | Monorepo, API NestJS, front Angular, types partagés | NestJS reprend la logique d'Angular (modules, injection de dépendances, décorateurs). Sa structure imposée garde le code cohérent quand il est écrit par des agents. Plus de code « cadre » qu'un serveur minimaliste.                                              |
+| B. Angular + Express ou Hono       | API minimaliste                                     | Contrôle total, peu de code, mais structure à inventer. C'est là que le code agentique dérive le plus sur un projet qui grossit.                                                                                                                                    |
+| C. Angular + Supabase              | Pas de back-end, BaaS                               | Le plus rapide, mais la logique métier part dans des règles SQL, ce n'est plus une architecture client-serveur, le stockage gratuit ne suffit pas pour des photos, et le projet se met en pause après une semaine d'inactivité. Contraire aux objectifs du porteur. |
 
 **Choix du porteur : A.**
 
 Hébergement envisagé :
 
-| Option | Arbitrage |
-|---|---|
-| **VPS + Coolify** ✅ retenue | ~4–6 €/mois, pas de démarrage à froid, outil connu, VPS réutilisable pour d'autres projets. En contrepartie : mises à jour du VPS et de Coolify, sauvegardes de la base à surveiller. |
-| Cloudflare Pages + Google Cloud Run + Neon | 0 €, presque rien à maintenir, mais démarrage à froid, configuration GCP plus lourde, nouvel environnement. |
+| Option                                     | Arbitrage                                                                                                                                                                             |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **VPS + Coolify** ✅ retenue               | ~4–6 €/mois, pas de démarrage à froid, outil connu, VPS réutilisable pour d'autres projets. En contrepartie : mises à jour du VPS et de Coolify, sauvegardes de la base à surveiller. |
+| Cloudflare Pages + Google Cloud Run + Neon | 0 €, presque rien à maintenir, mais démarrage à froid, configuration GCP plus lourde, nouvel environnement.                                                                           |
 
 **Choix du porteur : un nouveau VPS personnel avec Coolify** (le VPS du travail n'est pas utilisable pour un projet privé).
 
@@ -111,15 +111,15 @@ espace-client/
 
 ### 6.2 Composants
 
-| Composant | Choix | Détail |
-|---|---|---|
-| Front | Angular (composants standalone, signals) | Application unique. L'interface change selon le rôle (photographe ou client). |
-| API | NestJS, REST JSON | Un module Nest par domaine : `auth`, `users`, `clients`, `projects`, `steps`, `templates`, `storage`, `mail`. |
-| Base de données | PostgreSQL (sur le VPS via Coolify) | |
-| ORM | **Prisma** **[choix Claude]** | Très répandu, typage généré, migrations versionnées, bien maîtrisé par les agents. Alternative crédible : Drizzle. |
-| Fichiers | **Cloudflare R2** (compatible S3) | Bucket privé. Accès par URL signées à durée limitée générées par l'API. Gratuit jusqu'à 10 Go, sans frais de téléchargement (important pour la future galerie). Dans le socle, sert seulement au logo du client. |
-| E-mails | **Resend** (offre gratuite : 3 000/mois, 100/jour) **[choix Claude]** | Envoi depuis le domaine du projet (DNS vérifié). Alternative : Brevo (300/jour). Le module `mail` passe par une interface, pour pouvoir changer de fournisseur. |
-| UI | **Angular Material** **[choix Claude]** | Composants officiels, accessibles, responsive. Thème sobre adapté à la photographe. Son logo, ses couleurs et le nom de son activité sont fixés **dans la configuration du front** (fichier de thème + asset statique), pas modifiables depuis l'application **[choix Claude]**. Un seul photographe, ça change rarement : pas besoin de table de paramètres ni d'écran d'administration. |
+| Composant       | Choix                                                                 | Détail                                                                                                                                                                                                                                                                                                                                                                                    |
+| --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Front           | Angular (composants standalone, signals)                              | Application unique. L'interface change selon le rôle (photographe ou client).                                                                                                                                                                                                                                                                                                             |
+| API             | NestJS, REST JSON                                                     | Un module Nest par domaine : `auth`, `users`, `clients`, `projects`, `steps`, `templates`, `storage`, `mail`.                                                                                                                                                                                                                                                                             |
+| Base de données | PostgreSQL (sur le VPS via Coolify)                                   |                                                                                                                                                                                                                                                                                                                                                                                           |
+| ORM             | **Prisma** **[choix Claude]**                                         | Très répandu, typage généré, migrations versionnées, bien maîtrisé par les agents. Alternative crédible : Drizzle.                                                                                                                                                                                                                                                                        |
+| Fichiers        | **Cloudflare R2** (compatible S3)                                     | Bucket privé. Accès par URL signées à durée limitée générées par l'API. Gratuit jusqu'à 10 Go, sans frais de téléchargement (important pour la future galerie). Dans le socle, sert seulement au logo du client.                                                                                                                                                                          |
+| E-mails         | **Resend** (offre gratuite : 3 000/mois, 100/jour) **[choix Claude]** | Envoi depuis le domaine du projet (DNS vérifié). Alternative : Brevo (300/jour). Le module `mail` passe par une interface, pour pouvoir changer de fournisseur.                                                                                                                                                                                                                           |
+| UI              | **Angular Material** **[choix Claude]**                               | Composants officiels, accessibles, responsive. Thème sobre adapté à la photographe. Son logo, ses couleurs et le nom de son activité sont fixés **dans la configuration du front** (fichier de thème + asset statique), pas modifiables depuis l'application **[choix Claude]**. Un seul photographe, ça change rarement : pas besoin de table de paramètres ni d'écran d'administration. |
 
 ### 6.3 Développement local
 
@@ -204,7 +204,7 @@ Les agents ne peuvent pas créer de comptes ni acheter de services. Le plan doit
 
 - Deux rôles : `photographer` et `client`.
 - Un utilisateur client appartient à **un seul client** **[choix Claude]**. Pas de rôle à l'intérieur d'un client : tous ses utilisateurs voient tous ses projets.
-- Contrôle **côté API, systématiquement** : un *guard* Nest vérifie le rôle, et toute requête d'un utilisateur client est filtrée sur son `clientId`. Le front n'est jamais une barrière de sécurité.
+- Contrôle **côté API, systématiquement** : un _guard_ Nest vérifie le rôle, et toute requête d'un utilisateur client est filtrée sur son `clientId`. Le front n'est jamais une barrière de sécurité.
 - **Tests obligatoires :** pour chaque route accessible aux clients, un test vérifie qu'un utilisateur du client A ne peut ni lire ni modifier les données du client B (réponse 404, pour ne pas révéler l'existence des données).
 
 ## 9. Modèle de données (socle)
@@ -221,6 +221,7 @@ Session, LoginToken (auth)
 ```
 
 **Client**
+
 - `id`, `name` (nom affiché : entreprise ou particulier), `type` (`company` | `individual`)
 - `logoKey` (clé du fichier dans R2, optionnelle)
 - coordonnées : `contactEmail`, `phone`
@@ -229,20 +230,23 @@ Session, LoginToken (auth)
 - `createdAt`, `updatedAt`, `archivedAt` (archivage plutôt que suppression). Archiver un client **désactive ses utilisateurs et supprime leurs sessions** **[choix Claude]**. Le désarchiver les réactive.
 
 **User**
+
 - `id`, `email` (unique), `firstName`, `lastName`, `role`, `clientId` (null pour la photographe)
 - `status` (`invited` | `active` | `disabled`), `lastLoginAt`, horodatages
 
 **Project** (une séance ou une prestation pour un client)
+
 - `id`, `clientId`, `title`, `description`
 - `status` (`draft` | `active` | `completed` | `archived`). Visibilité côté client **[choix Claude]** :
   - `draft` : invisible ;
   - `active` : visible, affiché sur l'accueil ;
   - `completed` : visible en lecture seule, dans une section « Projets terminés » ;
   - `archived` : invisible.
-  Ce filtre est appliqué par l'API sur toutes les routes client, et les tests d'isolation le vérifient.
+    Ce filtre est appliqué par l'API sur toutes les routes client, et les tests d'isolation le vérifient.
 - horodatages
 
 **Step** (étape datée d'un projet)
+
 - `id`, `projectId`, `position` (ordre d'affichage), `title`, `description` (texte riche simple ou markdown, au choix du constructeur)
 - `kind` : `client_action` (le client doit faire quelque chose), `meeting` (appel ou rendez-vous), `milestone` (repère, par exemple le shooting)
 - `dueAt` : date, avec heure optionnelle (`dueAt` + `hasTime`). **Nullable** **[choix Claude]** : les étapes copiées d'un modèle n'ont pas de date. Une étape sans date s'affiche « date à venir ». Un projet peut passer en `active` avec des étapes non datées.
@@ -254,6 +258,7 @@ Session, LoginToken (auth)
 - Statut dérivé à l'affichage (pas stocké) : « en retard » si `todo` et `dueAt` dépassée.
 
 **StepTemplate / StepTemplateItem** (modèles de parcours) **[choix Claude]**
+
 - Un modèle = un nom + une liste ordonnée d'étapes (titre, description, `kind`) **sans dates**.
 - Appliquer un modèle à un projet copie ses étapes dans le projet. La photographe saisit ensuite les dates. Modifier un modèle plus tard ne touche pas les projets existants.
 - Amélioration possible plus tard : dates relatives (« J-14 avant le shooting »).
@@ -282,7 +287,9 @@ Tous les écrans sont **responsives**. Le côté client est pensé d'abord pour 
   ○  25 nov. 14:00    Appel de préparation (moodboard)   lien visio
   ○  03 déc.          Shooting                       lieu
   ```
+
   L'étape suivante à faire est mise en avant. Les étapes en retard sont signalées sans être alarmantes.
+
 - **Mon compte / mon entreprise :** voir les infos du client. Le client peut **modifier ses coordonnées de facturation et son logo** **[choix Claude]**, pour éviter à la photographe de les ressaisir. Il voit aussi les autres utilisateurs de son client (lecture seule).
 
 Dans le socle, le client **ne coche pas** les étapes : c'est la photographe qui les marque comme faites **[choix Claude]**. Plus tard, certaines étapes se compléteront automatiquement (par exemple quand un questionnaire est envoyé).
@@ -310,7 +317,7 @@ Objectif : qu'un agent puisse savoir seul si son travail est correct.
   2. l'utilisateur client se connecte via l'invitation et voit la frise de son projet ;
   3. un utilisateur d'un autre client ne voit pas ce projet.
 - Lint et formatage automatiques, types stricts, aucune erreur tolérée en CI.
-- Des données de démonstration (*seed*) permettent de lancer l'application en local avec une photographe, deux clients et quelques projets.
+- Des données de démonstration (_seed_) permettent de lancer l'application en local avec une photographe, deux clients et quelques projets.
 
 ## 12. Sécurité et données personnelles
 

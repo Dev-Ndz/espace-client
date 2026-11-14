@@ -10,11 +10,11 @@ Poser l'architecture globale et faire tourner en local un projet minimal où le 
 
 ## Approches
 
-| Approche | Arbitrage |
-|---|---|
+| Approche                        | Arbitrage                                                                                                                                                                                                     |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Angular + NestJS** ✅ retenue | NestJS reprend la logique d'Angular (modules, injection de dépendances). Sa structure imposée garde le code cohérent quand il est écrit par des agents. C'est aussi le framework que le porteur veut essayer. |
-| Angular + Express ou Hono | Minimaliste, mais la structure est à inventer, et c'est là que le code agentique dérive. |
-| Angular + Supabase | Pas d'API à écrire, mais ce n'est plus une architecture client-serveur et ça ne permet pas de tester un framework back. |
+| Angular + Express ou Hono       | Minimaliste, mais la structure est à inventer, et c'est là que le code agentique dérive.                                                                                                                      |
+| Angular + Supabase              | Pas d'API à écrire, mais ce n'est plus une architecture client-serveur et ça ne permet pas de tester un framework back.                                                                                       |
 
 Organisation du dépôt : **workspaces pnpm** avec les CLI officiels, plutôt que Nx (une couche d'outillage de plus, qu'on pourra ajouter si le dépôt grossit) **[choix Claude]**.
 

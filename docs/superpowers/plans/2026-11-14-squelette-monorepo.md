@@ -26,21 +26,23 @@
 
 ## Review Focus
 
-1. **API éteinte au chargement du front** → le front affiche « API injoignable », pas une page blanche ni un chargement infini. *(Task 3, test `affiche une erreur si l'API ne répond pas`)*
-2. **Réponse inattendue** (404 si le proxy est mal configuré, par exemple) → traitée comme une erreur. *(Task 3, test `affiche une erreur sur une réponse 404`)*
-3. **Route sans préfixe** : `GET /health` ne doit pas répondre. Le préfixe `/api` est appliqué en test comme en production. *(Task 2, test `GET /health sans préfixe renvoie 404`)*
-4. **Build de production de l'API** : `node dist/main.js` doit démarrer. L'import du partagé ne doit pas déplacer la sortie de compilation ni exiger du `.ts` à l'exécution. *(Task 4, étape de vérification du build de production)*
-5. **Chemin avec espace et Windows** : toutes les commandes racine tournent dans `C:\…\Espace client`. *(Task 4, étapes de vérification lancées depuis la racine)*
+1. **API éteinte au chargement du front** → le front affiche « API injoignable », pas une page blanche ni un chargement infini. _(Task 3, test `affiche une erreur si l'API ne répond pas`)_
+2. **Réponse inattendue** (404 si le proxy est mal configuré, par exemple) → traitée comme une erreur. _(Task 3, test `affiche une erreur sur une réponse 404`)_
+3. **Route sans préfixe** : `GET /health` ne doit pas répondre. Le préfixe `/api` est appliqué en test comme en production. _(Task 2, test `GET /health sans préfixe renvoie 404`)_
+4. **Build de production de l'API** : `node dist/main.js` doit démarrer. L'import du partagé ne doit pas déplacer la sortie de compilation ni exiger du `.ts` à l'exécution. _(Task 4, étape de vérification du build de production)_
+5. **Chemin avec espace et Windows** : toutes les commandes racine tournent dans `C:\…\Espace client`. _(Task 4, étapes de vérification lancées depuis la racine)_
 
 ---
 
 ### Task 1: Racine du workspace et package partagé
 
 **Files:**
+
 - Create: `package.json`, `pnpm-workspace.yaml`, `.gitignore`, `.gitattributes`, `.editorconfig`, `.prettierrc.json`, `.prettierignore`, `.nvmrc`
 - Create: `packages/shared/package.json`, `packages/shared/tsconfig.json`, `packages/shared/src/index.ts`, `packages/shared/src/health.ts`
 
 **Interfaces:**
+
 - Produces:
   - `export interface HealthResponse { status: 'ok'; timestamp: string /* ISO 8601 */ }`, exporté depuis `@espace-client/shared`
   - Package compilé : `main: "dist/index.js"`, `types: "dist/index.d.ts"`, scripts `build` (`tsc -p tsconfig.json`), `dev` (`tsc -p tsconfig.json --watch --preserveWatchOutput`), `typecheck` (`tsc -p tsconfig.json --noEmit`)
@@ -78,6 +80,7 @@
 ### Task 2: API NestJS avec `GET /api/health`
 
 **Files:**
+
 - Create (via CLI) : `apps/api/**`. Lancer depuis la racine : `pnpm dlx @nestjs/cli@latest new api --directory apps/api --package-manager pnpm --skip-git --skip-install --strict`.
 - Supprimer : `apps/api/.prettierrc` (on utilise celui de la racine), ainsi que `app.controller.ts`, `app.service.ts` et leur spec générés.
 - Create : `apps/api/src/app.setup.ts`, `apps/api/src/health/health.controller.ts`, `apps/api/src/health/health.module.ts`
@@ -85,6 +88,7 @@
 - Test : `apps/api/test/health.e2e-spec.ts` (remplace `app.e2e-spec.ts`)
 
 **Interfaces:**
+
 - Consumes : `HealthResponse` (Task 1), en `import type`.
 - Produces :
   - `configureApp(app: INestApplication): void` dans `app.setup.ts`, qui applique `app.setGlobalPrefix('api')`. Utilisé par `main.ts` et par les tests e2e.
@@ -131,6 +135,7 @@ it('GET /health sans préfixe renvoie 404', async () => {
 ### Task 3: Front Angular qui affiche le statut de l'API
 
 **Files:**
+
 - Create (via CLI) : `apps/web/**`. Lancer depuis la racine : `pnpm dlx @angular/cli@latest new web --directory apps/web --package-manager pnpm --skip-git --skip-install --style scss --ssr false --routing false`. Répondre aux autres questions par défaut, sans configuration d'outil IA.
 - Ajouter ESLint : `pnpm --filter @espace-client/web exec ng add angular-eslint --skip-confirmation`.
 - Create : `apps/web/src/app/health/health-client.ts`, `apps/web/src/app/health/health-status.ts`
@@ -138,6 +143,7 @@ it('GET /health sans préfixe renvoie 404', async () => {
 - Test : `apps/web/src/app/health/health-status.spec.ts`
 
 **Interfaces:**
+
 - Consumes : `HealthResponse` (Task 1), en `import type`.
 - Produces :
   - `HealthClient` (service `providedIn: 'root'`) avec `getHealth(): Observable<HealthResponse>`, qui fait `GET /api/health` (URL relative).
@@ -160,18 +166,18 @@ it('GET /health sans préfixe renvoie 404', async () => {
 - [ ] **Step 2: Écrire les tests qui échouent** — `health-status.spec.ts`, avec `provideHttpClient()` + `provideHttpClientTesting()` et `HttpTestingController` :
 
 ```ts
-it('affiche « Vérification de l\'API… » pendant l\'appel', () => {
+it("affiche « Vérification de l'API… » pendant l'appel", () => {
   // créer le composant, detectChanges, ne pas répondre à la requête
   expect(text()).toBe("Vérification de l'API…");
 });
 
-it('affiche « API connectée » quand l\'API répond ok', () => {
+it("affiche « API connectée » quand l'API répond ok", () => {
   const body: HealthResponse = { status: 'ok', timestamp: '2026-11-14T10:00:00.000Z' };
   http.expectOne('/api/health').flush(body);
   expect(text()).toBe('API connectée');
 });
 
-it('affiche une erreur si l\'API ne répond pas', () => {
+it("affiche une erreur si l'API ne répond pas", () => {
   http.expectOne('/api/health').error(new ProgressEvent('error'));
   expect(text()).toBe('API injoignable');
 });
@@ -182,7 +188,7 @@ it('affiche une erreur sur une réponse 404', () => {
 });
 ```
 
-  `text()` lit le contenu (trimé) de `[data-testid="health-status"]` après `fixture.detectChanges()` (ou `await fixture.whenStable()` si l'app est sans zone). Ajouter `http.verify()` en `afterEach`. Remplacer le test du composant racine généré par un seul test : le titre `Espace client` s'affiche.
+`text()` lit le contenu (trimé) de `[data-testid="health-status"]` après `fixture.detectChanges()` (ou `await fixture.whenStable()` si l'app est sans zone). Ajouter `http.verify()` en `afterEach`. Remplacer le test du composant racine généré par un seul test : le titre `Espace client` s'affiche.
 
 - [ ] **Step 3: Lancer les tests pour vérifier qu'ils échouent**
   - Run : `pnpm --filter @espace-client/web test`
@@ -201,10 +207,12 @@ it('affiche une erreur sur une réponse 404', () => {
 ### Task 4: Branchement local de bout en bout et documentation
 
 **Files:**
+
 - Create : `apps/web/proxy.conf.json`, `README.md`
 - Modify : `apps/web/angular.json` (option `proxyConfig` de la cible `serve`)
 
 **Interfaces:**
+
 - Consumes : scripts racine (Task 1), `GET /api/health` sur le port 3000 (Task 2), `HealthStatus` (Task 3).
 - Produces : `pnpm dev` lance l'API sur `:3000` et le front sur `:4200`. `http://localhost:4200/api/health` est relayé vers l'API.
 

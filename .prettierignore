@@ -2,3 +2,4 @@ dist
 .angular
 coverage
 pnpm-lock.yaml
+.superpowers
