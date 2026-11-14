@@ -1,0 +1,21 @@
+{
+  "name": "espace-client",
+  "private": true,
+  "packageManager": "pnpm@12.18.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build:shared": "pnpm --filter @espace-client/shared build",
+    "build": "pnpm -r build",
+    "dev": "pnpm build:shared && pnpm -r --parallel dev",
+    "typecheck": "pnpm build:shared && pnpm -r typecheck",
+    "test": "pnpm build:shared && pnpm -r test",
+    "lint": "pnpm build:shared && pnpm -r lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.10.1"
+  }
+}
