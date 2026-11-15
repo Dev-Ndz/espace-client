@@ -11,6 +11,7 @@
     "build": "prisma generate && nest build",
     "start": "node dist/main.js",
     "test": "prisma generate && vitest run",
+    "test:unit": "prisma generate && vitest run --project unit",
     "lint": "prisma generate && eslint --max-warnings 0 src test",
     "typecheck": "prisma generate && tsc --noEmit -p tsconfig.json",
     "db:generate": "prisma generate",
