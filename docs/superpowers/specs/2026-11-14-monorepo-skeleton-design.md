@@ -39,7 +39,7 @@ espace-client/
   - API: end-to-end test of `/api/health`;
   - front end: test of the component that displays the status.
 - TypeScript in `strict` mode everywhere. ESLint + Prettier configured at the root.
-- Versions: latest stable versions of Angular and NestJS. Node 22 (already installed, compatible). pnpm to install (`npm i -g pnpm` or corepack) **[Claude's choice]**.
+- Versions: latest stable versions of Angular and NestJS. Node 26 (see "Deviations adopted during implementation"). pnpm to install (`npm i -g pnpm` or corepack) **[Claude's choice]**.
 
 ## Out of scope for this step
 
