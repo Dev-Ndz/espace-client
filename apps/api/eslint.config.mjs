@@ -15,10 +15,6 @@ export default defineConfig([
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    rules: {
-      ...projectRules,
-      // Carried over from the generated oxlint config; still to decide (see PR #1).
-      '@typescript-eslint/no-explicit-any': 'off',
-    },
+    rules: projectRules,
   },
 ]);
