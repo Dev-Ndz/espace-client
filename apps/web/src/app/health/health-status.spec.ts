@@ -1,5 +1,4 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import type { HealthResponse } from '@espace-client/shared';
 import { HealthStatus } from './health-status';
@@ -20,7 +19,7 @@ describe('HealthStatus', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HealthStatus],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClientTesting()],
     });
     http = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(HealthStatus);

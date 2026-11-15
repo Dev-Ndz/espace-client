@@ -14,8 +14,16 @@ module.exports = defineConfig([
       angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
+    // Lint avec les types : nécessaire pour détecter les API dépréciées.
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: __dirname,
+      },
+    },
     rules: {
       '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/no-deprecated': 'error',
       '@angular-eslint/directive-selector': [
         'error',
         {

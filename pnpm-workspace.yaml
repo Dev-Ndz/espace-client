@@ -7,3 +7,6 @@ allowBuilds:
   esbuild: false
   lmdb: false
   msgpackr-extract: false
+
+# Refuse de lancer install / run -r si Node ne respecte pas engines.node (>=26).
+engineStrict: true

@@ -4,7 +4,7 @@ Espace client d'une photographe : un front Angular et une API NestJS dans un mon
 
 ## Prérequis
 
-- **Node 26** (version indiquée dans `.nvmrc`). Avec [fnm](https://github.com/Schniz/fnm) configuré avec `--use-on-cd`, la bonne version est choisie automatiquement en entrant dans le dossier.
+- **Node 26** (version indiquée dans `.nvmrc`). pnpm refuse de lancer `install` ou les scripts du monorepo avec une version plus ancienne (`engineStrict`). Avec [fnm](https://github.com/Schniz/fnm) configuré avec `--use-on-cd`, la bonne version est choisie automatiquement en entrant dans le dossier.
 - **pnpm** (`npm i -g pnpm`). La version utilisée est fixée par le champ `packageManager` du `package.json` racine.
 
 ## Installation
