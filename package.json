@@ -5,6 +5,13 @@
   "engines": {
     "node": ">=26"
   },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^26.13.1",
+      "onFail": "download"
+    }
+  },
   "scripts": {
     "build:shared": "pnpm --filter @espace-client/shared build",
     "build": "pnpm -r build",
