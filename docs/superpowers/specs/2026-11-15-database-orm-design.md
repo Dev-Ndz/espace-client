@@ -71,7 +71,7 @@ Running the application code itself in Docker (or a Dev Container) was considere
 
 ### Nest
 
-- A global `PrismaModule` exposing a `PrismaService` (connects at module init, disconnects at shutdown).
+- A global `PrismaModule` exposing a `PrismaService`. It does not connect at startup (Prisma connects on the first query), so the API starts even when PostgreSQL is down and the health route can report it **[Claude's choice]**. It disconnects at shutdown.
 - `@nestjs/config` with a **hand-written validation function** **[Claude's choice]**: the API refuses to start if `DATABASE_URL` is missing or invalid. No Zod for now, so as not to decide the `packages/shared` question.
 - `.env.example` documents each variable with development values; `.env` stays ignored.
 
