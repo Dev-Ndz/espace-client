@@ -27,3 +27,11 @@ Nest's packages are ESM only, and this project is ESM too: relative imports end 
 
 - A provider injected through the constructor (`constructor(private readonly x: MyService)`) must be imported **as a value** (`import { MyService }`), never with `import type`: Nest reads its type at runtime through decorator metadata, and an `import type` makes injection fail ("Nest can't resolve dependencies").
 - Conversely, `@espace-client/shared` is imported **only with `import type`** for now. The `no-restricted-imports` rule in `eslint.rules.mjs` (root, shared with the front end) enforces it. ESLint lints with type information, and in files that contain decorators `consistent-type-imports` stays silent, so it never pushes an injected provider to `import type`.
+
+## Prisma
+
+- Prisma **7** (pinned to `7.x`; Prisma 8 is a rewrite, check https://www.prisma.io/docs/orm/v7 rather than the default docs). Schema: `prisma/schema.prisma`; connection URL: `prisma.config.ts` (from `DATABASE_URL`).
+- The client is generated into `src/generated/prisma` by every package script (`prisma generate && …`). Never edit it; import it from `../generated/prisma/client.js`. Use it through the global `PrismaService` (`src/prisma/`), injected as a value.
+- `PrismaService` does not connect at startup: Prisma connects on the first query, so the API starts even when PostgreSQL is down.
+- Schema change: edit `schema.prisma`, then `pnpm db:migrate --name <name>` (creates the migration in `prisma/migrations` and applies it to the dev database). Commit the migration.
+- e2e tests (`test/**/*.e2e-spec.ts`) run against the real `espace_client_test` database: `test/support/global-setup.ts` checks that `TEST_DATABASE_URL` names a `_test` database, applies the migrations, and `test/support/e2e-setup.ts` points `DATABASE_URL` at it. No database mocks, except to simulate a failure. Unit tests (`*.spec.ts`) must not need a database: `pnpm test:unit`.

@@ -1,7 +1,7 @@
 # Step 2: database and ORM (plumbing only)
 
 - **Date:** 2026-11-15
-- **Status:** approved, not implemented yet
+- **Status:** implemented on branch `feat/database-orm`, see "Deviations adopted during implementation" below
 - **Overall context:** `2026-11-14-platform-foundation-design.md` (vision and working notes), `2026-11-14-monorepo-skeleton-design.md` (step 1)
 
 ## Intent
@@ -102,3 +102,10 @@ Running the application code itself in Docker (or a Dev Container) was considere
 - Exact script names (`db:generate`, `db:migrate`, …) and how the generation hooks into existing scripts.
 - How the Vitest setup passes `TEST_DATABASE_URL` to the app and to `prisma migrate deploy`.
 - Exact Prisma 7, `@prisma/adapter-pg` and `@nestjs/config` APIs: check with context7 before writing code (Prisma docs live at prisma.io/docs/orm/v7).
+
+## Deviations adopted during implementation
+
+- `pnpm-workspace.yaml` allows the build scripts of `prisma` and `@prisma/engines` (pnpm blocks them by default; `@prisma/engines` downloads the migration engine).
+- `.env` is loaded with Node's `process.loadEnvFile` in `prisma.config.ts` and the e2e global setup, instead of the `dotenv` package.
+- Vitest is split into two projects, `unit` (no database, `pnpm test:unit`) and `e2e` (global setup: `_test` guard, `prisma migrate deploy`, then the URL is handed to the tests with `provide`/`inject`).
+- The local databases were created through pgAdmin; the script header documents how (auto-commit on, one statement at a time).
