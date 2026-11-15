@@ -20,6 +20,7 @@ pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
 
 - Node 26 (`.nvmrc`), géré avec fnm. Gestionnaire de paquets : pnpm uniquement.
 - TypeScript `strict` partout.
+- Front : nommage du **guide de style Angular 2025** (valeur par défaut du CLI), sans suffixe de type. Écrire `user-profile.ts` / `UserProfile`, pas `user-profile.component.ts` / `UserProfileComponent`. Le nom dit ce que fait la classe (`HealthStatus`, `ProjectTimeline`), pas son décorateur.
 - Les contrats d'API sont définis dans `packages/shared`, et ce package s'importe **uniquement en `import type`** à ce stade.
 - Côté API, un service injecté par le constructeur s'importe **en valeur**, jamais en `import type`, sinon l'injection de dépendances de Nest échoue (voir `apps/api/AGENTS.md`).
 - Le projet avance une étape à la fois : squelette, puis base de données et ORM, puis connexion, puis première fonctionnalité, puis déploiement. Ne pas anticiper les décisions des étapes suivantes.
