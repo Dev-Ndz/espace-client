@@ -4,9 +4,8 @@ Client portal for a photographer: an Angular front end and a NestJS API in a pnp
 
 ## Prerequisites
 
-- **pnpm** (`npm i -g pnpm`), on any recent Node. The pnpm version is pinned by the `packageManager` field of the root `package.json`.
-- **Node 26** is provided by pnpm itself: `devEngines.runtime` in the root `package.json` pins it (exact version and checksums in `pnpm-lock.yaml`), `pnpm install` downloads it, and every `pnpm` script and `pnpm exec` runs on it, whatever Node is installed and from any subfolder. A bare `node` outside pnpm still uses the system Node.
-- `.nvmrc` (26) remains for version managers such as [fnm](https://github.com/Schniz/fnm) and for CI.
+- **Node 26** (version set in `.nvmrc`). pnpm refuses to run `install` or the monorepo scripts with an older version (`engineStrict`). With [fnm](https://github.com/Schniz/fnm) configured with `--use-on-cd`, the right version is selected automatically when entering the folder.
+- **pnpm** (`npm i -g pnpm`). The version in use is pinned by the `packageManager` field of the root `package.json`.
 
 ## Install
 

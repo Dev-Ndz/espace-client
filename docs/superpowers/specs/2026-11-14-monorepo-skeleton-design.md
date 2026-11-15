@@ -53,7 +53,7 @@ Folder layout inside each application, front-end test runner, ESLint and Prettie
 
 The text above is the spec as validated before implementation. These deviations were decided while building it (details in PR #1):
 
-- **Node 26** instead of Node 22: Angular CLI 22 requires Node ≥ 22.22.3, and Node 22 reaches end of life in April 2027. Provided by pnpm through `devEngines.runtime` (exact version pinned in the lockfile); `.nvmrc` kept for fnm and CI, and pnpm `engineStrict` stays as a safety net.
+- **Node 26** instead of Node 22: Angular CLI 22 requires Node ≥ 22.22.3, and Node 22 reaches end of life in April 2027. Managed with fnm; pnpm `engineStrict` refuses older versions.
 - **API tooling:** the Nest 12 CLI now generates an ESM project with **Vitest** and **oxlint** (no Jest, no ESLint). Vitest was kept; oxlint was replaced with **ESLint** (typescript-eslint, type-aware) so both apps share one linter. The front end uses ESLint (angular-eslint) and Vitest (Angular CLI default).
 - **Prettier** and the shared ESLint rules (`eslint.rules.mjs`) live at the root; each app has its own `eslint.config.mjs` that spreads them.
 - **`import type` rule for the shared package:** enforced with ESLint `no-restricted-imports` (`allowTypeImports`) in both apps. `consistent-type-imports` alone is not enough: with type-aware linting and Nest's `experimentalDecorators` + `emitDecoratorMetadata`, typescript-eslint skips files that contain decorators (which also keeps it from pushing injected providers to `import type`, as oxlint did).

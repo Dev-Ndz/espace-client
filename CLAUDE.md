@@ -19,7 +19,7 @@ pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ## Project rules
 
 - **Language:** documentation, specs and plans, code comments, test names, commit messages and pull requests are written in **English**. The application UI stays in **French** (the photographer's clients are French speakers), so the labels asserted in tests stay in French.
-- Node 26, provided by pnpm through `devEngines.runtime` (root `package.json`): run everything through `pnpm` (`pnpm <script>`, `pnpm exec <bin>`), not with a bare `node`/`npx`, which may pick an older system Node. Package manager: pnpm only.
+- Node 26 (`.nvmrc`), managed with fnm. Package manager: pnpm only.
 - TypeScript `strict` everywhere.
 - Front-end tests with `httpResource`/`HttpClient`: answer the request (`HttpTestingController.expectOne(...).flush(...)`) **before** awaiting `whenStable()`. The app is zoneless and a pending HTTP request keeps it unstable, so awaiting first hangs until the timeout (pattern from the Angular `httpResource` testing guide).
 - Front end: naming follows the **Angular 2025 style guide** (the CLI default), without type suffixes. Write `user-profile.ts` / `UserProfile`, not `user-profile.component.ts` / `UserProfileComponent`. The name says what the class does (`HealthStatus`, `ProjectTimeline`), not which decorator it has.
