@@ -1,7 +1,7 @@
 # Step 3: accounts and sign-in (email + password)
 
 - **Date:** 2026-11-15
-- **Status:** design approved, not implemented
+- **Status:** implemented on branch feat/authentication
 - **Overall context:** `2026-11-14-platform-foundation-design.md` (vision, §8 described a magic link: **replaced** by this document), `2026-11-15-database-orm-design.md` (step 2)
 
 ## Intent
@@ -163,7 +163,12 @@ No other table: the module only needs the `sessions` contract for what is config
 - **Online staging environment** (deployment step): the owner wants a test/staging environment online, in HTTPS, to try the app on a real phone before production. This revisits the vision's "local and production only" (§7.2).
 - Roles, users attached to a client, disabling a user, and the isolation tests (next step).
 - "Forgot password" and email sending (with invitations).
+- **Client IP behind the reverse proxy** (deployment step): the rate limit keys on `req.ip`, which is the proxy's address unless Express `trust proxy` is configured for Coolify's proxy.
 
 ## Deviations adopted during implementation
 
 - The `Session` table has **no foreign key** to `User`: `@nestjs/authentication` owns the session store and writes its rows itself, so the schema stays a plain mirror of what the store reads and writes. Orphan sessions are harmless (the user lookup returns `null`) and expire on their own.
+- "Same email from another IP" is tested on the tracker function, not over HTTP: supertest always comes from 127.0.0.1.
+- The e2e test files run one at a time (`fileParallelism: false`) because they share the test database.
+- `SessionAuth` registers itself with `registry.registerProvider(this)`: the shorter form in the `SessionCookieProvider` typings leaves every route answering 401.
+- Without a terminal, `user:create` reads the password and its confirmation as the first two stdin lines (scriptable).
