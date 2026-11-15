@@ -22,7 +22,11 @@ Create the `espace_client` role and the `espace_client` (development) and `espac
 psql -h localhost -p 5433 -U postgres -f docs/setup/create-local-databases.sql
 ```
 
-With pgAdmin, turn on "Auto commit?" in the Query Tool and run the statements one at a time. Then copy `apps/api/.env.example` to `apps/api/.env`.
+With pgAdmin, turn on "Auto commit?" in the Query Tool and run the statements one at a time. Then copy `apps/api/.env.example` to `apps/api/.env`, and apply the migrations to the development database:
+
+```bash
+pnpm --filter @espace-client/api db:deploy
+```
 
 ## Database
 
@@ -49,6 +53,22 @@ pnpm dev
 - API: http://localhost:3000 (test route: `GET /api/health`, which also reports whether the database answers)
 
 The Angular dev server proxies `/api` to the API (`apps/web/proxy.conf.json`), so there is no CORS to configure locally.
+
+Every page now needs a signed-in account: create one first (see "Create an account").
+
+## Create an account
+
+There is no sign-up page: accounts are created from the command line.
+
+```bash
+pnpm --filter @espace-client/api user:create ada@example.com
+```
+
+`user:create` rebuilds `apps/api/dist`, so run it with `pnpm dev` stopped (the dev watcher writes to the same folder).
+
+The command asks for the password twice, without echoing it. The password must be at least 12 characters long. It prints `User created: <email>`, or an error and exit code 1 (invalid email, short password, passwords that differ, or an email that already has an account).
+
+In production, run the built command in the API container, from the API directory: `node dist/cli/create-user.js <email>`.
 
 ## Verification scripts
 
