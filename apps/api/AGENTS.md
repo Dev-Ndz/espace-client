@@ -35,3 +35,11 @@ Nest's packages are ESM only, and this project is ESM too: relative imports end 
 - `PrismaService` does not connect at startup: Prisma connects on the first query, so the API starts even when PostgreSQL is down.
 - Schema change: edit `schema.prisma`, then `pnpm db:migrate --name <name>` (creates the migration in `prisma/migrations` and applies it to the dev database). Commit the migration.
 - e2e tests (`test/**/*.e2e-spec.ts`) run against the real `espace_client_test` database: `test/support/global-setup.ts` checks that `TEST_DATABASE_URL` names a `_test` database, applies the migrations, and `test/support/e2e-setup.ts` points `DATABASE_URL` at it. No database mocks, except to simulate a failure. Unit tests (`*.spec.ts`) must not need a database: `pnpm test:unit`.
+
+## Authentication
+
+- [`@nestjs/authentication`](https://docs.nestjs.com/security/authentication.md) is pinned to exactly `0.1.6` (very young, its API may change): an upgrade is a dedicated step.
+- Every route needs a session (the module's global guard): `@Public()` on a controller or a handler opens it.
+- `@CurrentUser()` gives a `CurrentUser` (`@espace-client/shared`), typed by `src/auth/authentication-types.ts`. It never holds `passwordHash`.
+- Sessions live in the `Session` table through `PrismaSessionStore` (`src/auth/`), which follows the module's store rules: conditional `updateMany()` / `deleteMany()` and their `count`, never `upsert()` in `touchSession()` (it would resurrect a deleted session). The contract suite in `test/prisma-session-store.e2e-spec.ts` checks them.
+- e2e tests that sign in use `createAuthTestApp()` (`test/support/auth-test-app.ts`): the whole app on an emptied test database, with `PasswordHasher` overridden to a low cost so that hashing stays fast.

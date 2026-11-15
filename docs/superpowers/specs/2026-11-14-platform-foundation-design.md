@@ -185,6 +185,8 @@ Agents cannot create accounts or buy services. The plan must include these steps
 
 ### 8.1 Sign-in **[Claude's choice]**
 
+> Replaced by `2026-11-15-authentication-design.md`: email + password, not a magic link.
+
 - **Sign-in link by email (magic link)** for everyone, with no password.
   - Reason: clients sign in rarely and would forget a password. For the photographer, a long session makes sign-ins rare.
   - Home-made implementation in the `auth` module, small and readable, in line with the wish to own all the code. Rules:
