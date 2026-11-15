@@ -198,3 +198,56 @@ describe('Authentication (e2e), password rehash', () => {
     expect(stored.passwordHash).not.toBe(oldHash);
   });
 });
+
+describe('Authentication (e2e), sign-in rate limit', () => {
+  let app: INestApplication<App>;
+  let createUser: (email: string, password: string) => Promise<CurrentUser>;
+
+  beforeEach(async () => {
+    const testApp = await createAuthTestApp();
+    app = testApp.app;
+    createUser = testApp.createUser;
+    await createUser(EMAIL, PASSWORD);
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+
+  const signIn = (email: string, password: string) =>
+    request(app.getHttpServer()).post('/api/auth/sign-in').send({ email, password });
+
+  it('blocks the sixth attempt on one account, even with the right password', async () => {
+    for (let i = 0; i < 5; i++) {
+      await signIn(EMAIL, 'wrong password').expect(401);
+    }
+
+    await signIn(EMAIL, PASSWORD).expect(429);
+  });
+
+  it('does not block another account from the same IP', async () => {
+    await createUser('bob@example.com', PASSWORD);
+    for (let i = 0; i < 5; i++) {
+      await signIn(EMAIL, 'wrong password').expect(401);
+    }
+
+    await signIn('bob@example.com', PASSWORD).expect(200);
+  });
+
+  it('blocks the thirty-first attempt from one IP, whatever the emails', async () => {
+    for (let i = 0; i < 30; i++) {
+      await signIn(`unknown-${i}@example.com`, 'wrong password').expect(401);
+    }
+
+    await signIn('unknown-30@example.com', 'wrong password').expect(429);
+  });
+
+  it('never throttles the current-user route', async () => {
+    const res = await signIn(EMAIL, PASSWORD).expect(200);
+    const cookie = cookieOf(res);
+
+    for (let i = 0; i < 40; i++) {
+      await request(app.getHttpServer()).get('/api/auth/me').set('Cookie', cookie).expect(200);
+    }
+  });
+});

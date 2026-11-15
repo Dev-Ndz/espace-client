@@ -1,5 +1,14 @@
-import { Body, Controller, Get, HttpCode, Post, UnauthorizedException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { CurrentUser, Public, SignInService } from '@nestjs/authentication';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import type { CurrentUser as User } from '@espace-client/shared';
 import { CredentialsService } from './credentials.service.js';
 import { parseSignInBody } from './sign-in-body.js';
@@ -13,6 +22,7 @@ export class AuthController {
 
   /** Same 401 for a wrong password and an unknown email: the answer reveals no account. */
   @Public()
+  @UseGuards(ThrottlerGuard)
   @Post('sign-in')
   @HttpCode(200)
   async signIn(@Body() body: unknown): Promise<User> {
