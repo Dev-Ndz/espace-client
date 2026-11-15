@@ -7,7 +7,7 @@ describe('HealthStatus', () => {
   let fixture: ComponentFixture<HealthStatus>;
   let http: HttpTestingController;
 
-  /** Texte affiché tout de suite, sans attendre la réponse HTTP. */
+  /** Text displayed right now, without waiting for the HTTP response. */
   function textNow(): string {
     fixture.detectChanges();
     const el = (fixture.nativeElement as HTMLElement).querySelector(
@@ -17,8 +17,8 @@ describe('HealthStatus', () => {
   }
 
   /**
-   * Texte affiché une fois l'application stable. Avec httpResource, une requête en cours
-   * empêche la stabilité : n'appeler qu'après avoir répondu à la requête.
+   * Text displayed once the application is stable. With httpResource, a pending request
+   * prevents stability: only call this after answering the request.
    */
   async function text(): Promise<string> {
     await fixture.whenStable();
@@ -39,28 +39,28 @@ describe('HealthStatus', () => {
     http.verify();
   });
 
-  it("affiche « Vérification de l'API… » pendant l'appel", () => {
+  it("shows « Vérification de l'API… » while the request is pending", () => {
     http.expectOne('/api/health');
     expect(textNow()).toBe("Vérification de l'API…");
   });
 
-  it("affiche « API connectée » quand l'API répond ok", async () => {
+  it('shows « API connectée » when the API answers ok', async () => {
     const body: HealthResponse = { status: 'ok', timestamp: '2026-11-14T10:00:00.000Z' };
     http.expectOne('/api/health').flush(body);
     expect(await text()).toBe('API connectée');
   });
 
-  it("affiche une erreur si l'API ne répond pas", async () => {
+  it('shows an error when the API is unreachable', async () => {
     http.expectOne('/api/health').error(new ProgressEvent('error'));
     expect(await text()).toBe('API injoignable');
   });
 
-  it('affiche une erreur sur une réponse 200 vide', async () => {
+  it('shows an error on an empty 200 response', async () => {
     http.expectOne('/api/health').flush(null);
     expect(await text()).toBe('API injoignable');
   });
 
-  it('affiche une erreur sur une réponse 404', async () => {
+  it('shows an error on a 404 response', async () => {
     http.expectOne('/api/health').flush('Not Found', { status: 404, statusText: 'Not Found' });
     expect(await text()).toBe('API injoignable');
   });

@@ -1,6 +1,6 @@
 import type { INestApplication } from '@nestjs/common';
 
-/** Configuration commune à l'application réelle et aux tests e2e. */
+/** Configuration shared by the real application and the e2e tests. */
 export function configureApp(app: INestApplication): void {
   app.setGlobalPrefix('api');
 }

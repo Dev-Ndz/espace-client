@@ -1,55 +1,56 @@
 # Espace client
 
-Espace client d'une photographe : un front Angular et une API NestJS dans un monorepo pnpm.
+Client portal for a photographer: an Angular front end and a NestJS API in a pnpm monorepo.
 
-## Prérequis
+## Prerequisites
 
-- **Node 26** (version indiquée dans `.nvmrc`). pnpm refuse de lancer `install` ou les scripts du monorepo avec une version plus ancienne (`engineStrict`). Avec [fnm](https://github.com/Schniz/fnm) configuré avec `--use-on-cd`, la bonne version est choisie automatiquement en entrant dans le dossier.
-- **pnpm** (`npm i -g pnpm`). La version utilisée est fixée par le champ `packageManager` du `package.json` racine.
+- **Node 26** (version set in `.nvmrc`). pnpm refuses to run `install` or the monorepo scripts with an older version (`engineStrict`). With [fnm](https://github.com/Schniz/fnm) configured with `--use-on-cd`, the right version is selected automatically when entering the folder.
+- **pnpm** (`npm i -g pnpm`). The version in use is pinned by the `packageManager` field of the root `package.json`.
 
-## Installation
+## Install
 
 ```bash
 pnpm install
 ```
 
-## Lancer en développement
+## Run in development
 
 ```bash
 pnpm dev
 ```
 
-- Front : http://localhost:4200
-- API : http://localhost:3000 (route de test : `GET /api/health`)
+- Front end: http://localhost:4200
+- API: http://localhost:3000 (test route: `GET /api/health`)
 
-Le serveur de développement Angular relaie `/api` vers l'API (`apps/web/proxy.conf.json`). Il n'y a donc pas de CORS à configurer en local.
+The Angular dev server proxies `/api` to the API (`apps/web/proxy.conf.json`), so there is no CORS to configure locally.
 
-## Scripts de vérification
+## Verification scripts
 
-À lancer depuis la racine. Ils couvrent tous les packages.
+Run them from the root. They cover every package.
 
-| Commande            | Rôle                                           |
-| ------------------- | ---------------------------------------------- |
-| `pnpm lint`         | Lint (oxlint pour l'API, ESLint pour le front) |
-| `pnpm typecheck`    | Vérification des types TypeScript (strict)     |
-| `pnpm test`         | Tests (Vitest pour l'API et le front)          |
-| `pnpm build`        | Build de production de tous les packages       |
-| `pnpm format`       | Formate le code avec Prettier                  |
-| `pnpm format:check` | Vérifie le formatage sans rien modifier        |
+| Command             | Purpose                                           |
+| ------------------- | ------------------------------------------------- |
+| `pnpm lint`         | Lint (oxlint for the API, ESLint for the front)   |
+| `pnpm typecheck`    | TypeScript type checking (strict)                 |
+| `pnpm test`         | Tests (Vitest for both the API and the front end) |
+| `pnpm build`        | Production build of every package                 |
+| `pnpm format`       | Format the code with Prettier                     |
+| `pnpm format:check` | Check formatting without changing anything        |
 
 ## Structure
 
 ```
 apps/
-  api/        API NestJS (CLI Nest, ESM, Vitest, oxlint)
-  web/        Front Angular (CLI Angular, composants standalone, Vitest, ESLint)
+  api/        NestJS API (Nest CLI, ESM, Vitest, oxlint)
+  web/        Angular front end (Angular CLI, standalone components, Vitest, ESLint)
 packages/
-  shared/     Types partagés entre le front et l'API
-docs/         Notes de conception et plans
+  shared/     Types shared by the front end and the API
+docs/         Design notes and plans
 ```
 
-## Règles
+## Rules
 
-- Les types de l'API (réponses, DTO) sont définis dans `packages/shared`. Si un contrat change, le front et l'API cassent tous les deux à la compilation.
-- À ce stade, le package partagé s'importe **uniquement en `import type`**. Le lint le vérifie : `no-restricted-imports` côté API (oxlint), `consistent-type-imports` côté front (ESLint).
-- Côté API, un service injecté par le constructeur s'importe en valeur, jamais en `import type` (voir `apps/api/AGENTS.md`).
+- API types (responses, DTOs) are defined in `packages/shared`. When a contract changes, both the front end and the API fail to compile.
+- For now, the shared package is imported **only with `import type`**. Linting enforces it: `no-restricted-imports` on the API (oxlint), `consistent-type-imports` on the front end (ESLint).
+- On the API side, a service injected through the constructor is imported as a value, never with `import type` (see `apps/api/AGENTS.md`).
+- The application UI is in French; documentation, code comments, tests, commits and pull requests are in English.

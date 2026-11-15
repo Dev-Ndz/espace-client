@@ -14,7 +14,7 @@ module.exports = defineConfig([
       angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
-    // Lint avec les types : nécessaire pour détecter les API dépréciées.
+    // Type-aware linting: required to detect deprecated APIs.
     languageOptions: {
       parserOptions: {
         projectService: true,

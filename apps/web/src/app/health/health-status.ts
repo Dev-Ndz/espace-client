@@ -16,7 +16,7 @@ const LABELS: Record<HealthState, string> = {
   template: `<p data-testid="health-status">{{ label() }}</p>`,
 })
 export class HealthStatus {
-  // La requête part dès la création du composant. `null` : un proxy peut répondre 200 sans corps.
+  // The request starts as soon as the component is created. `null`: a proxy may answer 200 with no body.
   private readonly health = httpResource<HealthResponse | null>(() => '/api/health');
 
   private readonly state = computed<HealthState>(() => {

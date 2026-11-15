@@ -3,7 +3,7 @@ import { provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
-  // HttpClient utilise fetch par défaut (withFetch est déprécié). provideHttpClient()
-  // reste l'endroit où brancher les futurs intercepteurs.
+  // HttpClient uses fetch by default (withFetch is deprecated). provideHttpClient()
+  // remains the place to register future interceptors.
   providers: [provideBrowserGlobalErrorListeners(), provideHttpClient()],
 };

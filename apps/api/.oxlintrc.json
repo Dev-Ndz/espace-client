@@ -10,7 +10,7 @@
           {
             "name": "@espace-client/shared",
             "allowTypeImports": true,
-            "message": "À ce stade, le package partagé s'importe uniquement en `import type`."
+            "message": "For now, the shared package may only be imported with `import type`."
           }
         ]
       }

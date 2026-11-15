@@ -3,14 +3,14 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { App } from './app';
 
 describe('App', () => {
-  it('affiche le titre « Espace client »', async () => {
+  it('shows the « Espace client » title', async () => {
     TestBed.configureTestingModule({
       imports: [App],
       providers: [provideHttpClientTesting()],
     });
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
-    // HealthStatus interroge l'API : on répond pour que l'application devienne stable.
+    // HealthStatus calls the API: answer the request so the application becomes stable.
     TestBed.inject(HttpTestingController)
       .expectOne('/api/health')
       .flush({ status: 'ok', timestamp: '2026-11-14T10:00:00.000Z' });

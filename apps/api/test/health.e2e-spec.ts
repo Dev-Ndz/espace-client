@@ -22,13 +22,13 @@ describe('Health (e2e)', () => {
     await app.close();
   });
 
-  it('GET /api/health renvoie le statut', async () => {
+  it('GET /api/health returns the status', async () => {
     const res = await request(app.getHttpServer()).get('/api/health').expect(200);
     expect(res.body.status).toBe('ok');
     expect(new Date(res.body.timestamp).toISOString()).toBe(res.body.timestamp);
   });
 
-  it('GET /health sans préfixe renvoie 404', async () => {
+  it('GET /health without the prefix returns 404', async () => {
     await request(app.getHttpServer()).get('/health').expect(404);
   });
 });

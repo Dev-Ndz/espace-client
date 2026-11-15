@@ -1,6 +1,6 @@
-/** Réponse de `GET /api/health`. */
+/** Response of `GET /api/health`. */
 export interface HealthResponse {
   status: 'ok';
-  /** Date ISO 8601 de la réponse. */
+  /** ISO 8601 date of the response. */
   timestamp: string;
 }

@@ -1,27 +1,28 @@
 # CLAUDE.md
 
-Espace client d'une photographe : un front Angular (`apps/web`) et une API NestJS (`apps/api`) dans un monorepo pnpm, avec des types partagés (`packages/shared`). Démarrage et scripts : voir `README.md`. Vision et conception : `docs/superpowers/specs/`.
+Client portal for a photographer: an Angular front end (`apps/web`) and a NestJS API (`apps/api`) in a pnpm monorepo, with shared types (`packages/shared`). Setup and scripts: see `README.md`. Vision and design: `docs/superpowers/specs/`.
 
-## Documentation des librairies : context7 obligatoire
+## Library documentation: context7 is mandatory
 
-Avant de concevoir, de planifier ou d'écrire du code qui dépend d'Angular, de NestJS ou d'une autre librairie ou d'un autre outil (pnpm, Vitest, oxlint, ESLint, Prisma…), consulter la documentation **à jour** avec le serveur MCP **context7** (`resolve-library-id`, puis `query-docs`). Ne pas se fier à sa mémoire : les versions utilisées ici (Angular 22, NestJS 12, Node 26) sont plus récentes que ce que les modèles connaissent, et leurs valeurs par défaut ont changé.
+Before designing, planning or writing code that depends on Angular, NestJS or any other library or tool (pnpm, Vitest, oxlint, ESLint, Prisma…), look up the **current** documentation with the **context7** MCP server (`resolve-library-id`, then `query-docs`). Do not rely on memory: the versions used here (Angular 22, NestJS 12, Node 26) are newer than what models know, and their defaults have changed.
 
-Pour NestJS, https://docs.nestjs.com/llms.txt indexe aussi la documentation (voir `apps/api/AGENTS.md`).
+For NestJS, https://docs.nestjs.com/llms.txt also indexes the documentation (see `apps/api/AGENTS.md`).
 
-## Vérifier son travail
+## Verify your work
 
-Depuis la racine, tout doit passer avant de déclarer une tâche terminée :
+From the root, everything must pass before declaring a task done:
 
 ```bash
 pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
 
-## Règles du projet
+## Project rules
 
-- Node 26 (`.nvmrc`), géré avec fnm. Gestionnaire de paquets : pnpm uniquement.
-- TypeScript `strict` partout.
-- Front : nommage du **guide de style Angular 2025** (valeur par défaut du CLI), sans suffixe de type. Écrire `user-profile.ts` / `UserProfile`, pas `user-profile.component.ts` / `UserProfileComponent`. Le nom dit ce que fait la classe (`HealthStatus`, `ProjectTimeline`), pas son décorateur.
-- Les contrats d'API sont définis dans `packages/shared`, et ce package s'importe **uniquement en `import type`** à ce stade.
-- Côté API, un service injecté par le constructeur s'importe **en valeur**, jamais en `import type`, sinon l'injection de dépendances de Nest échoue (voir `apps/api/AGENTS.md`).
-- Le projet avance une étape à la fois : squelette, puis base de données et ORM, puis connexion, puis première fonctionnalité, puis déploiement. Ne pas anticiper les décisions des étapes suivantes.
-- Aucun vrai secret dans le dépôt : il est public. En local, `.env` (ignoré par git) ne contient que des valeurs de développement. Les secrets de production vivent dans Coolify et dans les secrets GitHub.
+- **Language:** documentation, specs and plans, code comments, test names, commit messages and pull requests are written in **English**. The application UI stays in **French** (the photographer's clients are French speakers), so the labels asserted in tests stay in French.
+- Node 26 (`.nvmrc`), managed with fnm. Package manager: pnpm only.
+- TypeScript `strict` everywhere.
+- Front end: naming follows the **Angular 2025 style guide** (the CLI default), without type suffixes. Write `user-profile.ts` / `UserProfile`, not `user-profile.component.ts` / `UserProfileComponent`. The name says what the class does (`HealthStatus`, `ProjectTimeline`), not which decorator it has.
+- API contracts are defined in `packages/shared`, and this package is imported **only with `import type`** for now.
+- On the API side, a service injected through the constructor is imported **as a value**, never with `import type`, otherwise Nest dependency injection fails (see `apps/api/AGENTS.md`).
+- The project moves one step at a time: skeleton, then database and ORM, then authentication, then the first feature, then deployment. Do not anticipate the decisions of later steps.
+- No real secrets in the repository: it is public. Locally, `.env` (ignored by git) only holds development values. Production secrets live in Coolify and in GitHub secrets.
