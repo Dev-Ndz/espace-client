@@ -1,6 +1,7 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import type { ResourceStatus } from '@angular/core';
 import type { HealthResponse } from '@espace-client/shared';
-import { HealthClient } from './health-client';
 
 type HealthState = 'loading' | 'ok' | 'error';
 
@@ -15,16 +16,23 @@ const LABELS: Record<HealthState, string> = {
   template: `<p data-testid="health-status">{{ label() }}</p>`,
 })
 export class HealthStatus {
-  private readonly state = signal<HealthState>('loading');
-  protected readonly label = computed(() => LABELS[this.state()]);
+  // La requête part dès la création du composant. `null` : un proxy peut répondre 200 sans corps.
+  private readonly health = httpResource<HealthResponse | null>(() => '/api/health');
 
-  constructor() {
-    inject(HealthClient)
-      .getHealth()
-      .subscribe({
-        // Le corps peut être vide (null) si un proxy répond 200 sans contenu.
-        next: (res: HealthResponse | null) => this.state.set(res?.status === 'ok' ? 'ok' : 'error'),
-        error: () => this.state.set('error'),
-      });
-  }
+  private readonly state = computed<HealthState>(() => {
+    const status: ResourceStatus = this.health.status();
+    switch (status) {
+      case 'idle':
+      case 'loading':
+      case 'reloading':
+        return 'loading';
+      case 'resolved':
+      case 'local':
+        return this.health.value()?.status === 'ok' ? 'ok' : 'error';
+      case 'error':
+        return 'error';
+    }
+  });
+
+  protected readonly label = computed(() => LABELS[this.state()]);
 }

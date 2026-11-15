@@ -7,13 +7,22 @@ describe('HealthStatus', () => {
   let fixture: ComponentFixture<HealthStatus>;
   let http: HttpTestingController;
 
-  async function text(): Promise<string> {
+  /** Texte affiché tout de suite, sans attendre la réponse HTTP. */
+  function textNow(): string {
     fixture.detectChanges();
-    await fixture.whenStable();
     const el = (fixture.nativeElement as HTMLElement).querySelector(
       '[data-testid="health-status"]',
     );
     return el?.textContent?.trim() ?? '';
+  }
+
+  /**
+   * Texte affiché une fois l'application stable. Avec httpResource, une requête en cours
+   * empêche la stabilité : n'appeler qu'après avoir répondu à la requête.
+   */
+  async function text(): Promise<string> {
+    await fixture.whenStable();
+    return textNow();
   }
 
   beforeEach(() => {
@@ -30,9 +39,9 @@ describe('HealthStatus', () => {
     http.verify();
   });
 
-  it("affiche « Vérification de l'API… » pendant l'appel", async () => {
-    expect(await text()).toBe("Vérification de l'API…");
+  it("affiche « Vérification de l'API… » pendant l'appel", () => {
     http.expectOne('/api/health');
+    expect(textNow()).toBe("Vérification de l'API…");
   });
 
   it("affiche « API connectée » quand l'API répond ok", async () => {
