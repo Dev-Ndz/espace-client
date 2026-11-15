@@ -1,4 +1,4 @@
-// Prisma 7 schema. Models arrive with the authentication step.
+// Prisma 7 schema.
 // The connection URL lives in prisma.config.ts.
 
 generator client {
@@ -10,4 +10,28 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(uuid(7))
+  /// Trimmed, NFC, lower-cased (see src/users/email.ts).
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now()) @db.Timestamptz
+  updatedAt    DateTime @updatedAt @db.Timestamptz
+}
+
+/// Sessions of @nestjs/authentication. No foreign key to User: see the step 3 spec, deviations.
+model Session {
+  /// SHA-256 of the cookie token, never the token itself.
+  id           String   @id
+  userId       String
+  createdAt    DateTime @db.Timestamptz
+  expiresAt    DateTime @db.Timestamptz
+  lastActiveAt DateTime @db.Timestamptz
+  mfa          String?
+  metadata     Json?
+
+  @@index([userId])
+  @@index([expiresAt])
 }

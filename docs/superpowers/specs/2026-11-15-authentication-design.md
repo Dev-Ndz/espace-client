@@ -163,3 +163,7 @@ No other table: the module only needs the `sessions` contract for what is config
 - **Online staging environment** (deployment step): the owner wants a test/staging environment online, in HTTPS, to try the app on a real phone before production. This revisits the vision's "local and production only" (§7.2).
 - Roles, users attached to a client, disabling a user, and the isolation tests (next step).
 - "Forgot password" and email sending (with invitations).
+
+## Deviations adopted during implementation
+
+- The `Session` table has **no foreign key** to `User`: `@nestjs/authentication` owns the session store and writes its rows itself, so the schema stays a plain mirror of what the store reads and writes. Orphan sessions are harmless (the user lookup returns `null`) and expire on their own.
