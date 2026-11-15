@@ -46,12 +46,25 @@ function readHidden(prompt: string): Promise<string> {
   });
 }
 
-/** Without a terminal (piped input, scripts), the two passwords are the first two stdin lines. */
+/**
+ * Without a terminal (piped input, scripts), the two passwords are the first two stdin lines.
+ * The prompts still go to stderr, and reading stops after the second line instead of waiting
+ * for the end of the input.
+ */
 async function readPipedLines(): Promise<string[]> {
   const lines: string[] = [];
-  for await (const line of createInterface({ input: process.stdin })) {
+  const prompts = ['Password: ', 'Confirm password: '];
+  const reader = createInterface({ input: process.stdin });
+  process.stderr.write(prompts[0] ?? '');
+  for await (const line of reader) {
     lines.push(line);
+    if (lines.length === prompts.length) {
+      break;
+    }
+    process.stderr.write(prompts[lines.length] ?? '');
   }
+  reader.close();
+  process.stderr.write('\n');
   return lines;
 }
 

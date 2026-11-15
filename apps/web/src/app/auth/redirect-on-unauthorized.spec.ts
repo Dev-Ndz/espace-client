@@ -63,7 +63,7 @@ describe('redirectOnUnauthorized', () => {
     expect(router.url).toBe('/connexion?retour=%2Fprojets');
   });
 
-  it.each(['/api/auth/sign-in', '/api/auth/me'])(
+  it.each(['/api/auth/sign-in', '/api/auth/me', '/api/auth/sign-out'])(
     'does not redirect on a 401 from %s',
     async (url) => {
       const error = await respondWith(url, 401);

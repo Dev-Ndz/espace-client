@@ -58,16 +58,31 @@ describe('AuthSession', () => {
     expect(session.user()).toBeNull();
   });
 
-  it.each([
-    ['204', { status: 204, statusText: 'No Content' }],
-    ['500', { status: 500, statusText: 'Server Error' }],
-  ])('signOut() clears the user when the server answers %s', async (_label, init) => {
+  async function signInAda(): Promise<void> {
     const signedIn = session.signIn({ email: ada.email, password: 'secret' });
     http.expectOne('/api/auth/sign-in').flush(ada);
     await signedIn;
+  }
+
+  it.each([
+    ['204', { status: 204, statusText: 'No Content' }],
+    ['401', { status: 401, statusText: 'Unauthorized' }],
+  ])('signOut() clears the user when the server answers %s', async (_label, init) => {
+    await signInAda();
     const result = session.signOut();
     http.expectOne('/api/auth/sign-out').flush(null, init);
     await result;
     expect(session.user()).toBeNull();
+  });
+
+  it.each([
+    ['500', { status: 500, statusText: 'Server Error' }],
+    ['network error', { status: 0, statusText: 'Unknown Error' }],
+  ])('signOut() rejects and keeps the user on %s', async (_label, init) => {
+    await signInAda();
+    const result = session.signOut();
+    http.expectOne('/api/auth/sign-out').flush(null, init);
+    await expect(result).rejects.toBeInstanceOf(HttpErrorResponse);
+    expect(session.user()).toEqual(ada);
   });
 });

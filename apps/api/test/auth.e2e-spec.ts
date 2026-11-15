@@ -170,6 +170,7 @@ describe('Authentication (e2e)', () => {
     await prisma.user.deleteMany();
 
     await me(cookie).expect(401);
+    expect(await prisma.session.count()).toBe(0);
   });
 });
 
@@ -196,6 +197,7 @@ describe('Authentication (e2e), password rehash', () => {
 
     const stored = await prisma.user.findUniqueOrThrow({ where: { id: user.id } });
     expect(stored.passwordHash).not.toBe(oldHash);
+    expect(app.get(PasswordHasher).needsRehash(stored.passwordHash)).toBe(false);
   });
 });
 

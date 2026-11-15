@@ -59,4 +59,16 @@ describe('HomePage', () => {
     });
     expect(TestBed.inject(AuthSession).user()).toBeNull();
   });
+
+  it('stays signed in and shows an alert when the sign-out fails', async () => {
+    const button = (harness.routeNativeElement as HTMLElement).querySelector('button');
+    button?.click();
+    http.expectOne('/api/auth/sign-out').flush(null, { status: 500, statusText: 'Server Error' });
+    await harness.fixture.whenStable();
+    harness.detectChanges();
+    const alert = (harness.routeNativeElement as HTMLElement).querySelector('[role="alert"]');
+    expect(alert?.textContent?.trim()).toBe('La déconnexion a échoué. Réessayez.');
+    expect(TestBed.inject(Router).url).toBe('/');
+    expect(TestBed.inject(AuthSession).user()?.email).toBe('ada@example.com');
+  });
 });

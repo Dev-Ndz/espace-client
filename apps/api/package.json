@@ -10,7 +10,7 @@
     "dev": "prisma generate && nest start --watch",
     "build": "prisma generate && nest build",
     "start": "node dist/main.js",
-    "user:create": "nest build && node dist/cli/create-user.js",
+    "user:create": "prisma generate && nest build && node dist/cli/create-user.js",
     "test": "prisma generate && vitest run",
     "test:unit": "prisma generate && vitest run --project unit",
     "lint": "prisma generate && eslint --max-warnings 0 src test",

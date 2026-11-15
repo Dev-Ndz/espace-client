@@ -42,4 +42,5 @@ Nest's packages are ESM only, and this project is ESM too: relative imports end 
 - Every route needs a session (the module's global guard): `@Public()` on a controller or a handler opens it.
 - `@CurrentUser()` gives a `CurrentUser` (`@espace-client/shared`), typed by `src/auth/authentication-types.ts`. It never holds `passwordHash`.
 - Sessions live in the `Session` table through `PrismaSessionStore` (`src/auth/`), which follows the module's store rules: conditional `updateMany()` / `deleteMany()` and their `count`, never `upsert()` in `touchSession()` (it would resurrect a deleted session). The contract suite in `test/prisma-session-store.e2e-spec.ts` checks them.
+- Sign-in throttling is per route (`@UseGuards(ThrottlerGuard)` on `signIn`): there is no global throttler guard, so a new route is not rate-limited unless it opts in.
 - e2e tests that sign in use `createAuthTestApp()` (`test/support/auth-test-app.ts`): the whole app on an emptied test database, with `PasswordHasher` overridden to a low cost so that hashing stays fast.

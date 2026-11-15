@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import type { CurrentUser, SignInRequest } from '@espace-client/shared';
 import { firstValueFrom } from 'rxjs';
@@ -28,11 +28,18 @@ export class AuthSession {
     this.current.set(user);
   }
 
+  /**
+   * Clears the user once the server session is gone (204, or 401 when it had already ended).
+   * Any other failure leaves the user signed in and rejects, because the server session is
+   * probably still alive.
+   */
   async signOut(): Promise<void> {
     try {
       await firstValueFrom(this.http.post<void>('/api/auth/sign-out', null));
-    } catch {
-      // The local state is cleared whatever the server answered.
+    } catch (error) {
+      if (!(error instanceof HttpErrorResponse && error.status === 401)) {
+        throw error;
+      }
     }
     this.current.set(null);
   }

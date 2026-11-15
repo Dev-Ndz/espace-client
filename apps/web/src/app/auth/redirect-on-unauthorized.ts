@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthSession } from './auth-session';
 
-// These two endpoints answer 401 as part of normal operation.
-const EXEMPT_URLS = ['/api/auth/sign-in', '/api/auth/me'];
+// These endpoints answer 401 as part of normal operation (sign-out handles it itself).
+const EXEMPT_URLS = ['/api/auth/sign-in', '/api/auth/me', '/api/auth/sign-out'];
 
 /** On a 401 from the API, forgets the session and sends the user to the sign-in page. */
 export const redirectOnUnauthorized: HttpInterceptorFn = (req, next) => {
