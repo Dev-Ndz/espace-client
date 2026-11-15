@@ -28,14 +28,14 @@ The Angular dev server proxies `/api` to the API (`apps/web/proxy.conf.json`), s
 
 Run them from the root. They cover every package.
 
-| Command             | Purpose                                           |
-| ------------------- | ------------------------------------------------- |
-| `pnpm lint`         | Lint (ESLint for the API and the front end)       |
-| `pnpm typecheck`    | TypeScript type checking (strict)                 |
-| `pnpm test`         | Tests (Vitest for both the API and the front end) |
-| `pnpm build`        | Production build of every package                 |
-| `pnpm format`       | Format the code with Prettier                     |
-| `pnpm format:check` | Check formatting without changing anything        |
+| Command             | Purpose                                            |
+| ------------------- | -------------------------------------------------- |
+| `pnpm lint`         | Lint (ESLint for the API and the front end)        |
+| `pnpm typecheck`    | Type checking (strict, Angular templates included) |
+| `pnpm test`         | Tests (Vitest for both the API and the front end)  |
+| `pnpm build`        | Production build of every package                  |
+| `pnpm format`       | Format the code with Prettier                      |
+| `pnpm format:check` | Check formatting without changing anything         |
 
 ## Structure
 
