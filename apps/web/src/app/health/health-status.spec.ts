@@ -45,9 +45,23 @@ describe('HealthStatus', () => {
   });
 
   it('shows « API connectée » when the API answers ok', async () => {
-    const body: HealthResponse = { status: 'ok', timestamp: '2026-11-14T10:00:00.000Z' };
+    const body: HealthResponse = {
+      status: 'ok',
+      database: 'up',
+      timestamp: '2026-11-14T10:00:00.000Z',
+    };
     http.expectOne('/api/health').flush(body);
     expect(await text()).toBe('API connectée');
+  });
+
+  it('shows « Base de données injoignable » when the database is down', async () => {
+    const body: HealthResponse = {
+      status: 'ok',
+      database: 'down',
+      timestamp: '2026-11-15T10:00:00.000Z',
+    };
+    http.expectOne('/api/health').flush(body);
+    expect(await text()).toBe('Base de données injoignable');
   });
 
   it('shows an error when the API is unreachable', async () => {

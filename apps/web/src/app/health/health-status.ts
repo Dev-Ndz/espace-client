@@ -9,7 +9,11 @@ import type { HealthResponse } from '@espace-client/shared';
       @if (health.isLoading()) {
         Vérification de l'API…
       } @else if (health.hasValue() && health.value()?.status === 'ok') {
-        API connectée
+        @if (health.value()?.database === 'up') {
+          API connectée
+        } @else {
+          Base de données injoignable
+        }
       } @else {
         API injoignable
       }
