@@ -20,6 +20,7 @@ pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
 
 - **Language:** documentation, specs and plans, code comments, test names, commit messages and pull requests are written in **English**. The application UI stays in **French** (the photographer's clients are French speakers), so the labels asserted in tests stay in French.
 - Node 26 (`.nvmrc`), managed with fnm. Package manager: pnpm only.
+- Prisma is pinned to **7.x**: npm `latest` points to Prisma 8, a rewrite with a different API. Do not upgrade without a dedicated step. Database setup and scripts: see `README.md`.
 - TypeScript `strict` everywhere.
 - Front-end tests with `httpResource`/`HttpClient`: answer the request (`HttpTestingController.expectOne(...).flush(...)`) **before** awaiting `whenStable()`. The app is zoneless and a pending HTTP request keeps it unstable, so awaiting first hangs until the timeout (pattern from the Angular `httpResource` testing guide).
 - Front end: naming follows the **Angular 2025 style guide** (the CLI default), without type suffixes. Write `user-profile.ts` / `UserProfile`, not `user-profile.component.ts` / `UserProfileComponent`. The name says what the class does (`HealthStatus`, `ProjectTimeline`), not which decorator it has.

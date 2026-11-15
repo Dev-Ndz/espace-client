@@ -3,6 +3,9 @@ packages:
   - 'packages/*'
 
 allowBuilds:
+  # Prisma: the preinstall checks the environment, @prisma/engines downloads the migration engine.
+  '@prisma/engines': true
+  prisma: true
   '@parcel/watcher': false
   esbuild: false
   lmdb: false
