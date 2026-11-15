@@ -30,7 +30,7 @@ Run them from the root. They cover every package.
 
 | Command             | Purpose                                           |
 | ------------------- | ------------------------------------------------- |
-| `pnpm lint`         | Lint (oxlint for the API, ESLint for the front)   |
+| `pnpm lint`         | Lint (ESLint for the API and the front end)       |
 | `pnpm typecheck`    | TypeScript type checking (strict)                 |
 | `pnpm test`         | Tests (Vitest for both the API and the front end) |
 | `pnpm build`        | Production build of every package                 |
@@ -41,16 +41,17 @@ Run them from the root. They cover every package.
 
 ```
 apps/
-  api/        NestJS API (Nest CLI, ESM, Vitest, oxlint)
+  api/        NestJS API (Nest CLI, ESM, Vitest, ESLint)
   web/        Angular front end (Angular CLI, standalone components, Vitest, ESLint)
 packages/
   shared/     Types shared by the front end and the API
 docs/         Design notes and plans
+eslint.rules.mjs  ESLint rules shared by both apps
 ```
 
 ## Rules
 
 - API types (responses, DTOs) are defined in `packages/shared`. When a contract changes, both the front end and the API fail to compile.
-- For now, the shared package is imported **only with `import type`**. Linting enforces it: `no-restricted-imports` on the API (oxlint), `consistent-type-imports` on the front end (ESLint).
+- For now, the shared package is imported **only with `import type`**. Linting enforces it with `no-restricted-imports`, in the ESLint rules shared by both apps (`eslint.rules.mjs`).
 - On the API side, a service injected through the constructor is imported as a value, never with `import type` (see `apps/api/AGENTS.md`).
 - The application UI is in French; documentation, code comments, tests, commits and pull requests are in English.

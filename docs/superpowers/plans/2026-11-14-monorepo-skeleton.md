@@ -2,13 +2,13 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-> **Status:** implemented (PR #1). The header and the Node version reflect what was built; the task steps are otherwise kept as written before implementation (they still mention Jest and ESLint for the API). The deviations adopted (Node 26, Vitest + oxlint on the API, `no-restricted-imports`, `httpResource`…) are listed in the spec, section "Deviations adopted during implementation".
+> **Status:** implemented (PR #1). The header and the Node version reflect what was built; the task steps are otherwise kept as written before implementation (they still mention Jest for the API). The deviations adopted (Node 26, Vitest on the API, shared ESLint rules, `no-restricted-imports`, `httpResource`…) are listed in the spec, section "Deviations adopted during implementation".
 
 **Goal:** a pnpm monorepo where an Angular front end calls `GET /api/health` on a NestJS API and displays « API connectée », the response being typed by a shared package.
 
 **Architecture:** pnpm workspaces with three packages: `apps/api` (NestJS, created with the Nest CLI), `apps/web` (Angular, created with the Angular CLI), `packages/shared` (TypeScript types, compiled to `dist` with declarations). Locally, the Angular dev server proxies `/api` to NestJS. Root scripts (`dev`, `build`, `test`, `lint`, `typecheck`) drive every package.
 
-**Tech Stack:** Node 26, pnpm, strict TypeScript, NestJS (latest stable, ESM, Vitest + supertest, oxlint), Angular (latest stable, Vitest, ESLint), Prettier (root).
+**Tech Stack:** Node 26, pnpm, strict TypeScript, NestJS (latest stable, ESM, Vitest + supertest), Angular (latest stable, Vitest), ESLint in both apps with shared rules, Prettier (root).
 
 **Spec:** `docs/superpowers/specs/2026-11-14-monorepo-skeleton-design.md`
 

@@ -26,4 +26,4 @@ Nest's packages are ESM only, and this project is ESM too: relative imports end 
 ## Imports and dependency injection
 
 - A provider injected through the constructor (`constructor(private readonly x: MyService)`) must be imported **as a value** (`import { MyService }`), never with `import type`: Nest reads its type at runtime through decorator metadata, and an `import type` makes injection fail ("Nest can't resolve dependencies").
-- Conversely, `@espace-client/shared` is imported **only with `import type`** for now. The `no-restricted-imports` rule in `.oxlintrc.json` enforces it.
+- Conversely, `@espace-client/shared` is imported **only with `import type`** for now. The `no-restricted-imports` rule in `eslint.rules.mjs` (root, shared with the front end) enforces it. ESLint lints with type information, and in files that contain decorators `consistent-type-imports` stays silent, so it never pushes an injected provider to `import type`.
