@@ -50,6 +50,20 @@ pnpm dev
 
 The Angular dev server proxies `/api` to the API (`apps/web/proxy.conf.json`), so there is no CORS to configure locally.
 
+Every page now needs a signed-in account: create one first (see "Create an account").
+
+## Create an account
+
+There is no sign-up page: accounts are created from the command line.
+
+```bash
+pnpm --filter @espace-client/api user:create ada@example.com
+```
+
+The command asks for the password twice, without echoing it. The password must be at least 12 characters long. It prints `User created: <email>`, or an error and exit code 1 (invalid email, short password, passwords that differ, or an email that already has an account).
+
+In production, run the built command in the API container, from the API directory: `node dist/cli/create-user.js <email>`.
+
 ## Verification scripts
 
 Run them from the root. They cover every package.
